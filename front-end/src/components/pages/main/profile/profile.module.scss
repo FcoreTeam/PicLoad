@@ -8,15 +8,18 @@
   position: relative;
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, #202020, #202020)
-      padding-box,
-    linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(37, 37, 37, 0.1) 100%
-      )
-      border-box;
-  border: 1px solid transparent;
+  // background: linear-gradient(to right, #202020, #202020)
+  //     padding-box,
+  //   linear-gradient(
+  //       180deg,
+  //       rgba(255, 255, 255, 0.1) 0%,
+  //       rgba(37, 37, 37, 0.1) 100%
+  //     )
+  //     border-box;
+  // border: 1px solid transparent;
+  background: url('../../../../img/banners/contentbackground.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 
 
   .circle__avatar {
