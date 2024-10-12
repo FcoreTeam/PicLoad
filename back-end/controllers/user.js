@@ -1,5 +1,5 @@
 import { client } from '../config/database.js';
-import { createCategory, createCatOfUser, createUser } from '../config/sqlquery.js';
+import { errorLogStream } from '../app.js';
 
 client.connect().then(() => {
     console.log('Connected to database');
@@ -13,10 +13,11 @@ export const getUserInfo = async (req, res) => {
     // GET
     var info = client.query('SELECT * FROM users WHERE tg_id = $1', [req.query.tg_id]);
     info.then((data)=>{
-        res.json(data.rows[0]);
+        res.json(data.rows[0]).status(200);
     }).catch((err)=>{
         console.log(err);
-        res.json({error: 'Error while fetching user info'})
+        errorLogStream.write(`Error fetching user info: ${err.message}\n`);
+        res.json({error: 'Error while fetching user info'}).status(500);
     })
 };
 
@@ -27,6 +28,7 @@ export const getCatOfUser = async (req, res) => {
         res.json(data.rows);
     }).catch((err)=>{
         console.log(err);
+        errorLogStream.write(`Error while fetching category of users info: ${err.message}\n`);
         res.json({error: 'Error while fetching category of users info'})
     })
 }
@@ -38,6 +40,7 @@ export const getCategory = async (req, res) => {
         res.json(data.rows);
     }).catch((err)=>{
         console.log(err);
+        errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
         res.json({error: 'Error while fetching categories'})
     })
 }
@@ -51,6 +54,7 @@ export const addCatOfUsers = async (req, res) => {
         res.json(data);
     }).catch((err)=>{
         console.log(err);
+        errorLogStream.write(`Error while adding category of users: ${err.message}\n`);
         res.json({error: 'Error while adding category of users'})
     });
 }
@@ -63,6 +67,7 @@ export const addUser = async (req, res) => {
         res.json(data);
     }).catch((err)=>{
         console.log(err);
+        errorLogStream.write(`Error while adding user: ${err.message}\n`);
         res.json({error: 'Error while adding user'})
     });
 }
@@ -74,6 +79,7 @@ export const addCategory = async (req, res) => {
         res.json(data);
     }).catch((err)=>{
         console.log(err);
+        errorLogStream.write(`Error while adding category: ${err.message}\n`);
         res.json({error: 'Error while adding category'})
     });
 }
@@ -85,6 +91,7 @@ export const updateCatOfUsers = async (req, res) => {
         res.json(data);
     }).catch((err)=>{
         console.log(err);
+        errorLogStream.write(`Error while updating category of users: ${err.message}\n`);
         res.json({error: 'Error while updating category of users'})
     });
 }
