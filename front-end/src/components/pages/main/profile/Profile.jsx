@@ -12,6 +12,7 @@ import styles from "./profile.module.scss";
 const Profile = () => {
   const { name, username, balance, avatar, memoryAll, memoryUse } =
     useSelector((state) => state.user);
+    let newBalance = balance.toFixed(2)
 
   return (
     <>
@@ -39,7 +40,7 @@ const Profile = () => {
         >
           <p className={styles.section__name}>Заработано</p>
           <p className={styles.balance__block}>
-            <span className={styles.balance}>{balance} </span>{" "}
+            <span className={styles.balance}>{newBalance} </span>{" "}
             <span className={styles.balance__type}>₽</span>
           </p>
           <NavLink to="/" className={styles.withdraw}>
