@@ -1,0 +1,32 @@
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: none;
+  padding: 0;
+
+  &.login__button {
+    height: 50px;
+    width: 80%;
+    margin-top: 40px;
+    border-radius: 20px;
+    background: linear-gradient(138.01deg, #f3b33c -1.58%, #f2345d 104.27%);
+    box-shadow: 6px 6px 4px 0px #ffffff1a inset;
+    transition: .2s;
+
+    p {
+      margin-left: 10px;
+      font-size: 15px;
+      letter-spacing: 1px;
+      font-family: "SFdisplay";
+      font-weight: 300;
+    }
+    img {
+      margin-right: 10px;
+    }
+    &:active {
+      scale: 1.05;
+    }
+  }
+}
