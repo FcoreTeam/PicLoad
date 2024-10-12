@@ -7,10 +7,17 @@ let mainState = {
     avatar: null,
     name: "Testing Name",
     username: "@user",
-    memoryLeft: 0.45,
-    memoryAll: 1.5,
-    balance: 547.96,
+    memoryLeft: 0,
+    memoryAll: 1,
+    balance: 0,
   },
+  photoPage: {
+    uploadedNature: 0,
+    uploadedArchitecture: 0,
+    uploadedSport: 0,
+    uploadedEat: 0,
+    uploadedAdventure: 0,
+  }
 };
 
 const mainReducer = (state, action) => {
