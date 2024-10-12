@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import mainReducer from "./reducers/main-reducer";
+
+import userSlice from "./slices/userSlice.js"
+import photoSlice from "./slices/photoSlice.js"
 
 const store = configureStore({
   reducer: {
-    mainPage: mainReducer,
+    user: userSlice,
+    photos: photoSlice,
   },
 });
+
 export default store;

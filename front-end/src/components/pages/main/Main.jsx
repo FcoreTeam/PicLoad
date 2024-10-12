@@ -1,15 +1,17 @@
 import Categories from "./categories/Categories";
 import Profile from "./profile/Profile";
+import Storage from "./storage/Storage";
 
 import styles from "./main.module.scss";
-import MemoryWarning from "../popups/memory-warning/Memory-warning";
+import Wallet from "./wallet/Wallet";
 
-const Main = ({ state }) => {
+const Main = () => {
   return (
     <main className={styles.main__page}>
-      {false && <MemoryWarning />}
-      <Profile state={state.profilePage} />
-      <Categories state={state.photoPage} />
+      <Profile />
+      <Categories />
+      <Storage />
+      <Wallet />
     </main>
   );
 };

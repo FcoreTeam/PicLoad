@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 import styles from "./categories.module.scss";
 
 import Category from "./category/Category";
@@ -7,7 +9,8 @@ import sportImg from "../../../../img/icons/sport.svg";
 import eatImg from "../../../../img/icons/food.svg";
 import adventureImg from "../../../../img/icons/adventure.svg";
 
-const Categories = ({state}) => {
+const Categories = () => {
+  const {naturePhotos} = useSelector((state) => state.photos)
   return (
     <>
       <p className={styles.categories__title}>Загрузите фото 🔥</p>
@@ -22,35 +25,35 @@ const Categories = ({state}) => {
           name="Природа"
           type="nature"
           typeBackground="nature__bg"
-          loaded={state.uploadedNature + " " + "загружено"}
+          loaded={`${naturePhotos} загружено`}
         />
         <Category
           image={architectImg}
           name="Архитектура"
           type="architect"
           typeBackground="architect__bg"
-          loaded={state.uploadedArchitecture + " " + "загружено"}
+          loaded={`${0} загружено`}
         />
         <Category
           image={sportImg}
           name="Спорт"
           type="sport"
           typeBackground="sport__bg"
-          loaded={state.uploadedSport + " " + "загружено"}
+          loaded={`${0} загружено`}
         />
         <Category
           image={eatImg}
           name="Еда"
           type="eat"
           typeBackground="eat__bg"
-          loaded={state.uploadedEat + " " + "загружено"}
+          loaded={`${0} загружено`}
         />
         <Category
           image={adventureImg}
           name="Путешествия"
           type="adventure"
           typeBackground="adventure__bg"
-          loaded={state.uploadedAdventure+ " " + "загружено"}
+          loaded={`${0} загружено`}
         />
       </section>
     </>
