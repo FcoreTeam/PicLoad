@@ -2,7 +2,7 @@ import styles from "./login.module.scss";
 
 // image
 import loginBanner from "../../../img/banners/loginBanner.png";
-import Button from "../../button/Button";
+import Button from "../../ui/button/Button";
 import telegramLogo from "../../../img/icons/telegramLogo.svg";
 
 const Login = () => {

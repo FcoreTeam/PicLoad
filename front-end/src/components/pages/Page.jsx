@@ -6,7 +6,7 @@ const Page = ({children}) => {
     <>
       {children}
       {/* navbar сюда */}
-      {!true && <MemoryWarning />}
+      {true && <MemoryWarning />}
     </>
   )
 }

@@ -16,15 +16,14 @@ const userSlice = createSlice({
   initialState: profileState,
   reducers: {
     updateBalance: (state, action) => {
-      state.balance = action.balance;
+      state.balance = action.payload;
     },
-    upadtePercent: (state, action) => {
-      state.memoryPercent = action.memoryPercent;
+    updatePercent: (state, action) => {
+      state.memoryPercent = action.payload;
     },
   },
 });
 
-export const { updateBalance } = userSlice.actions;
-export const { upadtePercent } = userSlice.actions;
+export const { updateBalance, updatePercent } = userSlice.actions;
 
 export default userSlice.reducer;
