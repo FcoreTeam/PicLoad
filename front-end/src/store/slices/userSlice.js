@@ -4,11 +4,12 @@ export const profileState = {
   avatar: null,
   name: "Testing Name",
   username: "@user",
-  memoryUse: 0.58,
+  memoryUse: 0,
   memoryAll: 1,
   memoryPercent: 100,
-  balance: 2314.11,
-  income: 234.45,
+  balance: 0,
+  income: 0,
+  isPremium: false,
 };
 
 const userSlice = createSlice({

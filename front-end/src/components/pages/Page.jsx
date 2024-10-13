@@ -1,14 +1,15 @@
-import React from 'react'
+import React from "react";
 import MemoryWarning from "./popups/memory-warning/Memory-warning";
+import Navbar from "./navbar/Navbar";
 
-const Page = ({children}) => {
+const Page = ({ children }) => {
   return (
     <>
       {children}
-      {/* navbar сюда */}
+      <Navbar />
       {!true && <MemoryWarning />}
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
