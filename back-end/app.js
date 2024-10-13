@@ -4,6 +4,14 @@ import dotenv from 'dotenv';
 import router from './routes/router.js';
 import fs from 'fs';
 import path from 'path';
+import cors from 'cors';
+import { bot } from './bot/bot.js';
+import { client } from './config/database.js';
+import { initCreateAllTables } from './config/initCreateAllTables.js';
+
+
+initCreateAllTables(client);
+
 
 dotenv.config();
 
@@ -22,8 +30,11 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
 });
 
+bot.launch();
+
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.use(morgan('combined', { stream: infoLogStream }));
+app.use(cors());
 app.use(router)
