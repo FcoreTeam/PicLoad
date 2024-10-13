@@ -10,7 +10,13 @@ import eatImg from "../../../../img/icons/food.svg";
 import adventureImg from "../../../../img/icons/adventure.svg";
 
 const Categories = () => {
-  const {naturePhotos} = useSelector((state) => state.photos)
+  const {
+    naturePhotos,
+    architecturePhotos,
+    foodPhotos,
+    sportPhotos,
+    travelPhotos,
+  } = useSelector((state) => state.photos);
   return (
     <>
       <p className={styles.categories__title}>Загрузите фото 🔥</p>
@@ -32,28 +38,28 @@ const Categories = () => {
           name="Архитектура"
           type="architect"
           typeBackground="architect__bg"
-          loaded={`${0} загружено`}
+          loaded={`${architecturePhotos} загружено`}
         />
         <Category
           image={sportImg}
           name="Спорт"
           type="sport"
           typeBackground="sport__bg"
-          loaded={`${0} загружено`}
+          loaded={`${foodPhotos} загружено`}
         />
         <Category
           image={eatImg}
           name="Еда"
           type="eat"
           typeBackground="eat__bg"
-          loaded={`${0} загружено`}
+          loaded={`${sportPhotos} загружено`}
         />
         <Category
           image={adventureImg}
           name="Путешествия"
           type="adventure"
           typeBackground="adventure__bg"
-          loaded={`${0} загружено`}
+          loaded={`${travelPhotos} загружено`}
         />
       </section>
     </>

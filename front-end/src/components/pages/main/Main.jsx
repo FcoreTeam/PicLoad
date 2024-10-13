@@ -1,9 +1,10 @@
-import Categories from "./categories/Categories";
 import Profile from "./profile/Profile";
+import Categories from "./categories/Categories";
 import Storage from "./storage/Storage";
+import Wallet from "./wallet/Wallet";
+import Promocode from "./promocode/Promocode";
 
 import styles from "./main.module.scss";
-import Wallet from "./wallet/Wallet";
 
 const Main = () => {
   return (
@@ -12,6 +13,7 @@ const Main = () => {
       <Categories />
       <Storage />
       <Wallet />
+      <Promocode />
     </main>
   );
 };

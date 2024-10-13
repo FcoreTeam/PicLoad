@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-   naturePhotos: 0,
-   architecturePhotos: 0,
-   foodPhotos: 0,
-   sportPhotos: 0,
-   travelPhotos: 0,
+   naturePhotos: 21,
+   architecturePhotos: 134,
+   foodPhotos: 150,
+   sportPhotos: 2,
+   travelPhotos: 17,
 }
 
 const photoSlice = createSlice({

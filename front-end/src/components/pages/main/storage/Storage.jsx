@@ -28,7 +28,7 @@ const Storage = () => {
         Проверьте доступность хранения фотографий
       </p>
       <div className={styles.progress__bar}>
-        <div className={styles.progress}>
+        <div className={styles.progress} style={{ width: `${memoryPercent}%` }}>
           <p className={styles.memory__percent}>{memoryPercent} %</p>
         </div>
       </div>
