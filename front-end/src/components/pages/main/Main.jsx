@@ -3,6 +3,8 @@ import Categories from "./categories/Categories";
 import Storage from "./storage/Storage";
 import Wallet from "./wallet/Wallet";
 import Promocode from "./promocode/Promocode";
+import Support from "./support/Support";
+import Faq from "./faq/Faq";
 
 import styles from "./main.module.scss";
 
@@ -14,6 +16,8 @@ const Main = () => {
       <Storage />
       <Wallet />
       <Promocode />
+      <Support />
+      <Faq />
     </main>
   );
 };
