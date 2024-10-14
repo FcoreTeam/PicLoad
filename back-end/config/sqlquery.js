@@ -7,7 +7,8 @@ export const createUser = `CREATE TABLE IF NOT EXISTS users (
     is_premium BOOLEAN NOT NULL DEFAULT false,
     current_storage DECIMAL(10,2) NOT NULL DEFAULT 0,
     max_storage DECIMAL(10,2) NOT NULL DEFAULT 1,
-    income DECIMAL(10,2) NOT NULL DEFAULT 0
+    income DECIMAL(10,2) NOT NULL DEFAULT 0,
+    last_income_updated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
     );`;
 
 export const createCategory = `CREATE TABLE IF NOT EXISTS category (

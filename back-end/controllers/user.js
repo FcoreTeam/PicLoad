@@ -10,8 +10,6 @@ export const updateUser = async (ctx) => {
     })
     await console.log('updated user: '+ctx.from.id)
 }
-
-
 export const getUserInfo = async (req, res) => {
     // GET
     try {
@@ -61,3 +59,65 @@ export const updateCatOfUsers = async (req, res) => {
     });
 }
 
+export const updateTimeIncoming = async (req, res) => {
+    // PUT
+    var info = await client.query('SELECT last_income_updated FROM users WHERE tg_id = $1', [req.body.tg_id]);
+    try {
+        const today = new Date();
+        const lastIncomeUpdated = new Date(info.rows[0].last_income_updated);
+        const diffTime = await Math.abs(today - lastIncomeUpdated);
+        const diffDays = await Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+        if (diffDays >= 7) {
+            await client.query('UPDATE users SET incoming = $1 WHERE tg_id = $2', [0, req.body.tg_id]);
+            await client.query('UPDATE users SET last_income_updated = $1 WHERE tg_id = $2', [today, req.body.tg_id]);
+            await res.json({success: true});
+        } else {
+            await res.json({success: false});
+        }
+    } catch(err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while fetching last income updated: ${err.message}\n`);
+        await res.json({error: 'Error while fetching last income updated'})
+    }
+}
+export const updateIncome = async (req, res) => {
+    // PUT
+    var info = await client.query('UPDATE users SET income = income + $1 WHERE tg_id = $2', [req.body.income, req.body.tg_id]);
+    try {
+        await res.json(info);
+    } catch(err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while updating income: ${err.message}\n`);
+        await res.json({error: 'Error while updating income'})
+    };
+}
+
+export const enterPromocode = async (req, res) => {
+    // PUT
+    var info = await client.query('SELECT discount from promo WHERE code = $1', [req.body.promocode]);
+    try {
+        const dis = info.rows[0]['discount'];
+        await client.query('UPDATE users SET balance = balance + $1 WHERE tg_id = $2', [dis, req.body.tg_id]);
+        req.body.income = dis;
+        await fetch('http://localhost:3000/api/updateincome', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({income: dis, tg_id: req.body.tg_id})
+        })
+        await fetch('http://localhost:3000/api/updatetimeincoming', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({tg_id: req.body.tg_id})
+        })
+        await res.json({'success': true});
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while fetching user info: ${err.message}\n`);
+        await res.json({error: 'Error while fetching user info'})
+    }
+}
