@@ -3,13 +3,13 @@ import { getCatOfUser, getUserInfo, getCategory, updateCatOfUsers, addCatOfUsers
 
 const router = Router();
 
-router.get('/', getUserInfo)
-router.get('/categoryofuser', getCatOfUser)
-router.get('/category', getCategory)
+router.get('/api/', getUserInfo)
+router.get('/api/categoryofuser', getCatOfUser)
+router.get('/api/category', getCategory)
 
-router.post('/addcategory', addCategory) 
-router.post('/addcatofuser', addCatOfUsers)
+router.post('/api/addcategory', addCategory) 
+router.post('/api/addcatofuser', addCatOfUsers)
 
-router.put('/updatecatofusers', updateCatOfUsers)
+router.put('/api/updatecatofusers', updateCatOfUsers)
 
 export default router;
