@@ -37,5 +37,9 @@ button {
     padding: 8px 18px 8px 18px;
     border-radius: 14px;
     background: linear-gradient(138.01deg, #f3b33c -1.58%, #f2345d 104.27%);
+
+    p {
+      margin: 0 !important;
+    }
   }
 }
