@@ -8,8 +8,6 @@ import cors from 'cors';
 import { bot } from './bot/bot.js';
 import { client } from './config/database.js';
 import { initCreateAllTables } from './config/initCreateAllTables.js';
-
-
 initCreateAllTables(client);
 
 

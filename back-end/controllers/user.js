@@ -1,13 +1,23 @@
 import { client } from '../config/database.js';
 import { errorLogStream } from '../app.js';
 import coupon from 'coupon-code';
+import { bot } from '../bot/bot.js';
 
 // GET query
+
+export const updateUser = async (ctx) => {
+    await bot.telegram.getChat(ctx.from.id).then(async (data) => {
+        await client.query(`UPDATE users SET username = $1, first_name = $2 WHERE tg_id = $3`, [data.username, data.first_name, data.id]);
+    })
+    await console.log('updated user: '+ctx.from.id)
+}
+
 
 export const getUserInfo = async (req, res) => {
     // GET
     try {
-        var info = await client.query(`SELECT * FROM users WHERE tg_id = ${req.query.tg_id}`);
+        await updateUser({ from: { id: req.query.tg_id } });
+        var info = await client.query(`SELECT * FROM users WHERE tg_id = $1`, [req.query.tg_id]);
         res.json(info.rows);
     } catch (err) {
         console.log(err);
