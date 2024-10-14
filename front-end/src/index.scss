@@ -10,6 +10,9 @@
   box-sizing: border-box;
   font-family: SFdisplay;
 }
+html {
+  overflow: auto;
+}
 html,
 body {
   width: 100%;
@@ -43,4 +46,8 @@ ul li {
 }
 img {
   vertical-align: top;
+}
+.white75 {
+  color: #fff;
+  opacity: 75%;
 }

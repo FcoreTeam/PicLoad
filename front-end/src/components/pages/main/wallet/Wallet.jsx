@@ -1,10 +1,34 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./wallet.module.scss";
+import { setPopupData } from "../../../../store/slices/popupsSlice";
 
 const Wallet = () => {
   const { balance, income } = useSelector((state) => state.user);
   let remainder = balance.toFixed(2).slice(2, 4);
+  const dispatch = useDispatch();
+
+  const showWithdrawPopup = () => {
+    if (true) {
+      dispatch(
+        setPopupData({
+          isOpen: true,
+          popupName: "warning",
+          title: "Вывод",
+          text: "Для вывода необходимо иметь 30 загруженных фотографий",
+        })
+      );
+    } else if (balance < 3000) {
+      dispatch(
+        setPopupData({
+          isOpen: true,
+          popupName: "warning",
+          title: "Вывод",
+          text: "Минимальная сумма вывода 3000р",
+        })
+      );
+    }
+  };
 
   return (
     <section className={styles.wallet__section}>
@@ -24,7 +48,9 @@ const Wallet = () => {
           </p>
         </div>
         <div className={styles.button__wrapper}>
-          <button className={styles.withdraw}>Вывести</button>
+          <button className={styles.withdraw} onClick={showWithdrawPopup}>
+            Вывести
+          </button>
         </div>
       </div>
     </section>
