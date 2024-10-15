@@ -49,7 +49,8 @@ export const getCatOfUser = async (req, res) => {
         JOIN cat_of_user cu ON c.id = cu.category_id
         WHERE cu.user_tg_id = ${req.query.tg_id};`);
         await res.json(info.rows);
-    } catch (err) {await 
+    } catch (err) {
+        await 
         await errorLogStream.write(`Category not found: ${err.message}\n`);
         await console.log(err);
     }

@@ -11,6 +11,7 @@ import { RubLimit } from './utils/rublimit.js'
 import { setRandomError } from './utils/setRandomError.js'
 import { promo } from './utils/promo.js'
 import { delpromo } from './utils/delpromo.js'
+import { setGb } from './utils/setGb.js'
 
 dotenv.config()
 
@@ -19,7 +20,18 @@ export const bot = new Telegraf(token)
 
 bot.start(async (ctx) => {
     await addUser(ctx)
-    console.log(ctx.from.id)
+})
+
+bot.command('spam', async (ctx) => {
+    let re = new RegExp('/spam\\sTg')
+    if (!re.test(ctx.message.text)) {
+        await ctx.reply('Неверный формат записи (/spam Tg)')
+        return
+    }
+    const info = await client.query(`SELECT tg_id FROM users`)
+    await info.rows.forEach(async (row) => {
+        await bot.telegram.sendMessage(row.tg_id, ctx.message.reply_to_message.text)
+    });
 })
 
 bot.command('fRub', async (ctx) => {
@@ -58,6 +70,10 @@ bot.command('promo', async (ctx) => {
 
 bot.command('delpromo', async (ctx) => {
     await delpromo(ctx)
+})
+
+bot.command('setGb', async (ctx) => {
+    await setGb(ctx)
 })
 
 bot.on('message', async (ctx) => {
