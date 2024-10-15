@@ -119,7 +119,7 @@ bot.command('RubLimit', async (ctx) => {
         await client.query(`ALTER TABLE users ALTER COLUMN max_balance SET DEFAULT ${size}`)
         await ctx.reply(`Лимит в рублях обновлен до ${size}`)
     } catch (err) {
-        console.log(err)
+        await console.log(err)
         await ctx.reply(err.message)
     }
 })
@@ -159,9 +159,9 @@ bot.command('promo', async (ctx) => {
     if (info.rows.length > 0) {
         await ctx.reply(`Промокод ${code} уже существует`)
         await ctx.reply(`Хотите удалить промокод?`, 
-            Markup.inlineKeyboard([
-                Markup.button.callback('Да', JSON.stringify({action: 'delpromo', code: code})),
-                Markup.button.callback('Нет', JSON.stringify({action: 'cancel'}))
+            await Markup.inlineKeyboard([
+                await Markup.button.callback('Да', JSON.stringify({action: 'delpromo', code: code})),
+                await Markup.button.callback('Нет', JSON.stringify({action: 'cancel'}))
             ]))
         return
     }
@@ -188,8 +188,8 @@ bot.on('callback_query', async (ctx) => {
     const data = JSON.parse(ctx.callbackQuery.data);
     if (data.action.includes('delpromo')) {
         await client.query('DELETE FROM promo WHERE code = $1', [data.code])
-        ctx.editMessageText('Промокод удален')
+        await ctx.editMessageText('Промокод удален')
     } else {
-        ctx.deleteMessage()
+        await ctx.deleteMessage()
     }
 })
