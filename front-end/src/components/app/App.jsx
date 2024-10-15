@@ -11,10 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
   const { memoryAll, memoryUse } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    checkMemory(memoryAll, memoryUse);
-  }, []);
+  // const { isOpen } = useSelector((state) => state.popups);
+  // const dispatch = useDispatch();
+  // const checkMemoryUi = () => dispatch(checkMemory(memoryAll, memoryUse));
+  // checkMemoryUi();
 
   return (
     <Routes>

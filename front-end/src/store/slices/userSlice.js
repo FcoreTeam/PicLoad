@@ -4,7 +4,7 @@ export const profileState = {
   avatar: null,
   name: "Testing Name",
   username: "@user",
-  memoryUse: 0,
+  memoryUse: 0.8,
   memoryAll: 1,
   memoryPercent: 100,
   balance: 0,

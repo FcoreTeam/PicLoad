@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Layout from "../../components/pages/Layout";
 
 const initialState = {
     isOpen: false,
