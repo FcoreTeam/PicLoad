@@ -6,46 +6,48 @@ import { bot } from '../bot/bot.js';
 
 export const updateUser = async (ctx) => {
     await bot.telegram.getChat(ctx.from.id).then(async (data) => {
-        await client.query(`UPDATE users SET username = ${data.username}, first_name = ${data.first_name} WHERE tg_id = ${data.id}`);
+        await client.query('UPDATE users SET username=$1, first_name=$2 WHERE tg_id = $3', [data.username, data.first_name, ctx.from.id]);
     })
     await console.log('updated user: '+ctx.from.id)
 }
 export const getUserInfo = async (req, res) => {
     // GET
     try {
-        await updateUser({ from: { id: req.query.tg_id } });
-        var info = await client.query(`SELECT * FROM users WHERE tg_id = ${req.query.tg_id}`);
-        res.json(info.rows);
+        await updateUser({ from: { id: req.query.id } });
+        var info = await client.query(`SELECT * FROM users WHERE tg_id = ${req.query.id}`);
+        await res.json(info.rows);
     } catch (err) {
-        console.log(err);
-        errorLogStream.write(`Error while fetching user info: ${err.message}\n`);
-        res.json({error: 'Error while fetching user info'})
+        await console.log(err);
+        await errorLogStream.write(`Error while fetching user info: ${err.message}\n`);
+        await res.json({error: 'Error while fetching user info'})
     }
 };
 
 export const getCatOfUser = async (req, res) => {
     // GET
-    var info = await client.query(`SELECT * FROM cat_of_user WHERE user_tg_id = ${req.query.user_tg_id}`);
-    info.then((data)=>{
-        res.json(data.rows);
-    }).catch((err)=>{
-        console.log(err);
-        errorLogStream.write(`Error while fetching category of users info: ${err.message}\n`);
-        res.json({error: 'Error while fetching category of users info'})
-    })
+    try {
+        var info = await client.query(`SELECT c.title, cu.quantity
+FROM category c
+JOIN cat_of_user cu ON c.id = cu.category_id
+WHERE cu.user_tg_id = ${req.query.tg_id};`);
+        await res.json(info.rows);
+    } catch (err) {await 
+        await console.log(err);
+    }
 }
 
-export const getCategory = async (req, res) => {
-    // GET
-    var info = await client.query(`SELECT * FROM category WHERE id = ${req.query.id}`);
-    info.then((data)=>{
-        res.json(data.rows);
-    }).catch((err)=>{
-        console.log(err);
-        errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
-        res.json({error: 'Error while fetching categories'})
-    })
-}
+// export const getCategory = async (req, res) => {
+//     // GET
+//     try {
+//         var info = await client.query(`SELECT * FROM category WHERE id = ${req.query.id}`);
+//         await res.json(info.rows);
+//     } catch (err) {
+//         await console.log(err);
+//         await errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
+//         await res.json({error: 'Error while fetching categories'})
+//     }
+    
+// }
 
 export const memberStatus = async (req, res) => {
     // GET
@@ -64,14 +66,18 @@ export const memberStatus = async (req, res) => {
 
 export const updateCatOfUsers = async (req, res) => {
     // PUT
-    var info = await client.query(`UPDATE cat_of_users SET quantity = ${req.body.quantity} WHERE user_tg_id = ${req.body.user_tg_id} AND category_id = ${req.body.category_id}`);
-    info.then((data)=>{
-        res.json(data);
-    }).catch((err)=>{
-        console.log(err);
-        errorLogStream.write(`Error while updating category of users: ${err.message}\n`);
-        res.json({error: 'Error while updating category of users'})
-    });
+    try {
+        var info = await client.query(`UPDATE cat_of_user SET quantity = ${req.body.quantity} WHERE user_tg_id = ${req.body.user_tg_id} AND category_id = ${req.body.category_id}`);
+        if(info.rowCount == 0) {
+            await res.json({failure: "Не обновилось. Такой категории не существует!"});
+        } else {
+            await res.json({success: true});
+        }
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while updating categories: ${err.message}\n`);
+        await res.json({error: 'Error while updating categories'})
+    }
 }
 
 export const updateTimeIncoming = async (req, res) => {
@@ -110,7 +116,7 @@ export const updateIncome = async (req, res) => {
 
 export const enterPromocode = async (req, res) => {
     // PUT
-    var info = await client.query(`SELECT discount from promo WHERE code = ${req.body.promocode}`);
+    var info = await client.query('SELECT discount from promo WHERE code = $1', [req.body.code]);
     try {
         if (info.rows.length === 0) {
             await res.json({success: false, error: 'Promocode not found'});
@@ -133,7 +139,7 @@ export const enterPromocode = async (req, res) => {
             },
             body: JSON.stringify({tg_id: req.body.tg_id})
         })
-        await client.query(`DELETE FROM promo WHERE code = ${req.body.promocode}`);
+        await client.query('DELETE FROM promo WHERE code = $1', [req.body.code]);
         await res.json({'success': true});
     } catch (err) {
         await console.log(err);

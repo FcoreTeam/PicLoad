@@ -17,7 +17,7 @@ export const createUser = `CREATE TABLE IF NOT EXISTS users (
 
 export const createCategory = `CREATE TABLE IF NOT EXISTS category (
     id SERIAL PRIMARY KEY UNIQUE,
-    title VARCHAR(255) NOT NULL
+    title VARCHAR(255) NOT NULL UNIQUE
 );`;
 
 export const createCatOfUser = `CREATE TABLE IF NOT EXISTS cat_of_user (
@@ -28,8 +28,11 @@ export const createCatOfUser = `CREATE TABLE IF NOT EXISTS cat_of_user (
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
 );`;
 
-export const cratePromo = `CREATE TABLE IF NOT EXISTS promo (
+export const createPromo = `CREATE TABLE IF NOT EXISTS promo (
     id SERIAL PRIMARY KEY UNIQUE,
     code varchar(30) NOT NULL UNIQUE,
     discount DECIMAL(100,2) NOT NULL
 )`
+
+export const createDefaultCategory = `INSERT INTO category (title) 
+            VALUES ('Природа'), ('Еда'), ('Спорт'), ('Путешествия'), ('Архитектура');`

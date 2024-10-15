@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { getCatOfUser, getUserInfo, getCategory, updateCatOfUsers, enterPromocode, updateIncome, updateTimeIncoming, memberStatus } from "../controllers/user.js";
+import { getCatOfUser, getUserInfo, updateCatOfUsers, enterPromocode, updateIncome, updateTimeIncoming, memberStatus } from "../controllers/user.js";
 
 const router = Router();
 
 router.get('/api/', getUserInfo)
 router.get('/api/categoryofuser', getCatOfUser)
-router.get('/api/category', getCategory)
 router.get('/api/memberStatus', memberStatus)
 
 router.put('/api/updatecatofuser', updateCatOfUsers)
