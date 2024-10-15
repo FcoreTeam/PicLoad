@@ -1,12 +1,18 @@
-import styles from "./user-bonus.module.scss";
-
 import clsx from "clsx";
+
+import Button from "../../../ui/button/Button";
+
+import openAsk from "../../../../img/icons/openArrow.svg"
+
+import styles from "./user-bonus.module.scss";
 
 const UserBonus = ({
   bonusState,
   bonusReward,
   bonusName,
   bonusDescription,
+  bonusLink,
+  buttonImage,
   bonusCount,
   bonusAsk,
 }) => {
@@ -22,16 +28,26 @@ const UserBonus = ({
           {bonusState ? "🔥 Выполнено" : "⏳ Не выполнено"}
         </div>
         <div className={styles.line}></div>
-        <div className={styles.bonus__reward}>{bonusReward}</div>
+        <div className={styles.bonus__reward}>{bonusReward} ₽</div>
       </div>
       <section className={styles.bonus__info}>
         <div className={styles.bonus__text}>
           <p className={styles.bonus__name}>{bonusName}</p>
           <p className={styles.bonus__description}>{bonusDescription}</p>
         </div>
+        <a href={bonusLink}>
+          <Button image={buttonImage} componentStyle="bonus__button" />
+        </a>
       </section>
       {bonusCount && <></>}
-      {bonusAsk && <></>}
+      {bonusAsk == "Как скачать?" ? (
+        <div className={styles.bonus__ask}>
+          <p className={styles.ask}>{bonusAsk}</p>
+          <img src={openAsk} alt="" className={styles.open__ask} />
+        </div>
+      ) : (
+        <></>
+      )}
     </section>
   );
 };
