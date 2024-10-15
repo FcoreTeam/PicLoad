@@ -8,7 +8,7 @@ export const updateUser = async (ctx) => {
     await bot.telegram.getChat(ctx.from.id).then(async (data) => {
         await client.query('UPDATE users SET username=$1, first_name=$2 WHERE tg_id = $3', [data.username, data.first_name, ctx.from.id]);
     })
-    await console.log('updated user: '+ctx.from.id)
+    await console.log('Updated user: '+ctx.from.id)
 }
 export const getUserInfo = async (req, res) => {
     // GET
@@ -18,8 +18,8 @@ export const getUserInfo = async (req, res) => {
         await res.json(info.rows);
     } catch (err) {
         await console.log(err);
-        await errorLogStream.write(`Error while fetching user info: ${err.message}\n`);
-        await res.json({error: 'Error while fetching user info'})
+        await errorLogStream.write(`User not found: ${err.message}\n`);
+        await res.json({error: 'User not found'})
     }
 };
 
@@ -32,6 +32,7 @@ JOIN cat_of_user cu ON c.id = cu.category_id
 WHERE cu.user_tg_id = ${req.query.tg_id};`);
         await res.json(info.rows);
     } catch (err) {await 
+        await errorLogStream.write(`Category not found: ${err.message}\n`);
         await console.log(err);
     }
 }
@@ -46,8 +47,8 @@ export const memberStatus = async (req, res) => {
         await res.json(member);
     } catch (err) {
         await console.log(err);
-        await errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
-        await res.json({error: 'Error while fetching categories'})
+        await errorLogStream.write(`Error while fetching status: ${err.message}\n`);
+        await res.json({error: 'Error while fetching status'})
     }
 }
 
@@ -55,7 +56,7 @@ export const updateCatOfUsers = async (req, res) => {
     // PUT
     try {
         var info = await client.query(`UPDATE cat_of_user SET quantity = ${req.body.quantity} WHERE user_tg_id = ${req.body.user_tg_id} AND category_id = ${req.body.category_id}`);
-        if(info.rowCount == 0) {
+            if(info.rowCount == 0) {
             await res.json({failure: "Не обновилось. Такой категории не существует!"});
         } else {
             await res.json({success: true});
@@ -117,14 +118,14 @@ export const enterPromocode = async (req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: await JSON.stringify({income: dis, tg_id: req.body.tg_id})
+            body: JSON.stringify({income: dis, tg_id: req.body.tg_id})
         })
         await fetch('http://localhost:3000/api/updatetimeincoming', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: await JSON.stringify({tg_id: req.body.tg_id})
+            body: JSON.stringify({tg_id: req.body.tg_id})
         })
         await client.query('DELETE FROM promo WHERE code = $1', [req.body.code]);
         await res.json({'success': true});
