@@ -13,8 +13,26 @@ export const updateUser = async (ctx) => {
 export const getUserInfo = async (req, res) => {
     // GET
     try {
-        await updateUser({ from: { id: req.query.id } });
-        var info = await client.query(`SELECT * FROM users WHERE tg_id = ${req.query.id}`);
+        await fetch('http://localhost:3000/api/updatetimeincoming', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({tg_id: req.query.tg_id})
+        })
+        await updateUser({ from: { id: req.query.tg_id } });
+        var info = await client.query(`SELECT *,
+        (
+            SELECT COUNT(*) 
+            FROM users u2
+            WHERE from_ref_id = u.tg_id
+        ) AS referrer_count,
+        (
+            SELECT SUM(quantity)
+            FROM cat_of_user
+            WHERE user_tg_id = u.tg_id
+        ) AS quantity_of_pictures
+        FROM users u WHERE u.tg_id = ${req.query.tg_id}`);
         await res.json(info.rows);
     } catch (err) {
         await console.log(err);
@@ -27,13 +45,25 @@ export const getCatOfUser = async (req, res) => {
     // GET
     try {
         var info = await client.query(`SELECT c.title, cu.quantity
-FROM category c
-JOIN cat_of_user cu ON c.id = cu.category_id
-WHERE cu.user_tg_id = ${req.query.tg_id};`);
+        FROM category c
+        JOIN cat_of_user cu ON c.id = cu.category_id
+        WHERE cu.user_tg_id = ${req.query.tg_id};`);
         await res.json(info.rows);
     } catch (err) {await 
         await errorLogStream.write(`Category not found: ${err.message}\n`);
         await console.log(err);
+    }
+}
+
+export const getRandomError = async (req, res) => {
+    // GET
+    try {
+        var info = await client.query('SELECT * FROM errors ORDER BY RANDOM() LIMIT 1');
+        await res.json(info.rows[0]);
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error not found: ${err.message}\n`);
+        await res.json({error: 'Error not found'})
     }
 }
 

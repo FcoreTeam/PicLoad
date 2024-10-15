@@ -1,4 +1,4 @@
-import { createUser, createCategory, createCatOfUser, createPromo, createDefaultCategory } from '../config/sqlquery.js';
+import { createUser, createCategory, createCatOfUser, createPromo, createDefaultCategory, createErrors, createDefaultErrors } from '../config/sqlquery.js';
 
 export function initCreateAllTables(client) {
     client.query(createUser);
@@ -6,4 +6,6 @@ export function initCreateAllTables(client) {
     client.query(createCatOfUser);
     client.query(createPromo);
     client.query(createDefaultCategory).catch((err) => {});
+    client.query(createErrors);
+    client.query(createDefaultErrors);
 }

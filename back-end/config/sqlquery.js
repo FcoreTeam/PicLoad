@@ -36,3 +36,20 @@ export const createPromo = `CREATE TABLE IF NOT EXISTS promo (
 
 export const createDefaultCategory = `INSERT INTO category (title) 
             VALUES ('Природа'), ('Еда'), ('Спорт'), ('Путешествия'), ('Архитектура');`
+
+export const createErrors = `CREATE TABLE IF NOT EXISTS errors (
+    id SERIAL PRIMARY KEY UNIQUE,
+    message VARCHAR(255) NOT NULL
+);`;
+
+export const createDefaultErrors = `INSERT INTO errors (message)
+    VALUES
+    ('Изображение плохого качества'),
+    ('Изображение слишком большое'),
+    ('Изображение слишком маленькое'),
+    ('Изображение содержит недопустимый контент'),
+    ('Формат файла не поддерживается'),
+    ('Изображение не соответствует теме или контексту'),
+    ('Дубликат уже существующего изображения'),
+    ('Изображение содержит водяные знаки или логотипы'),
+    ('Присутствие посторонних объектов в кадре');`
