@@ -36,19 +36,6 @@ WHERE cu.user_tg_id = ${req.query.tg_id};`);
     }
 }
 
-// export const getCategory = async (req, res) => {
-//     // GET
-//     try {
-//         var info = await client.query(`SELECT * FROM category WHERE id = ${req.query.id}`);
-//         await res.json(info.rows);
-//     } catch (err) {
-//         await console.log(err);
-//         await errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
-//         await res.json({error: 'Error while fetching categories'})
-//     }
-    
-// }
-
 export const memberStatus = async (req, res) => {
     // GET
     const chatId = req.query.chat_id; // ID of the channel
@@ -130,14 +117,14 @@ export const enterPromocode = async (req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({income: dis, tg_id: req.body.tg_id})
+            body: await JSON.stringify({income: dis, tg_id: req.body.tg_id})
         })
         await fetch('http://localhost:3000/api/updatetimeincoming', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({tg_id: req.body.tg_id})
+            body: await JSON.stringify({tg_id: req.body.tg_id})
         })
         await client.query('DELETE FROM promo WHERE code = $1', [req.body.code]);
         await res.json({'success': true});
