@@ -6,7 +6,7 @@ import { bot } from '../bot/bot.js';
 
 export const updateUser = async (ctx) => {
     await bot.telegram.getChat(ctx.from.id).then(async (data) => {
-        await client.query(`UPDATE users SET username = $1, first_name = $2 WHERE tg_id = $3`, [data.username, data.first_name, data.id]);
+        await client.query(`UPDATE users SET username = ${data.username}, first_name = ${data.first_name} WHERE tg_id = ${data.id}`);
     })
     await console.log('updated user: '+ctx.from.id)
 }
@@ -14,7 +14,7 @@ export const getUserInfo = async (req, res) => {
     // GET
     try {
         await updateUser({ from: { id: req.query.tg_id } });
-        var info = await client.query(`SELECT * FROM users WHERE tg_id = $1`, [req.query.tg_id]);
+        var info = await client.query(`SELECT * FROM users WHERE tg_id = ${req.query.tg_id}`);
         res.json(info.rows);
     } catch (err) {
         console.log(err);
@@ -25,7 +25,7 @@ export const getUserInfo = async (req, res) => {
 
 export const getCatOfUser = async (req, res) => {
     // GET
-    var info = await client.query('SELECT * FROM cat_of_user WHERE user_tg_id = $1', [req.query.user_tg_id]);
+    var info = await client.query(`SELECT * FROM cat_of_user WHERE user_tg_id = ${req.query.user_tg_id}`);
     info.then((data)=>{
         res.json(data.rows);
     }).catch((err)=>{
@@ -37,7 +37,7 @@ export const getCatOfUser = async (req, res) => {
 
 export const getCategory = async (req, res) => {
     // GET
-    var info = await client.query('SELECT * FROM category WHERE id = $1', [req.query.id]);
+    var info = await client.query(`SELECT * FROM category WHERE id = ${req.query.id}`);
     info.then((data)=>{
         res.json(data.rows);
     }).catch((err)=>{
@@ -47,9 +47,24 @@ export const getCategory = async (req, res) => {
     })
 }
 
+export const memberStatus = async (req, res) => {
+    // GET
+    const chatId = req.query.chat_id; // ID of the channel
+    const tgId = req.query.tg_id; // ID of the user to check
+
+    try {
+        const member = await bot.telegram.getChatMember(chatId, tgId);
+        await res.json(member);
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
+        await res.json({error: 'Error while fetching categories'})
+    }
+}
+
 export const updateCatOfUsers = async (req, res) => {
     // PUT
-    var info = await client.query('UPDATE cat_of_users SET quantity = $1 WHERE user_id = $2 AND category_id = $3', [req.body.quantity, req.body.user_id, req.body.category_id]);
+    var info = await client.query(`UPDATE cat_of_users SET quantity = ${req.body.quantity} WHERE user_tg_id = ${req.body.user_tg_id} AND category_id = ${req.body.category_id}`);
     info.then((data)=>{
         res.json(data);
     }).catch((err)=>{
@@ -61,7 +76,7 @@ export const updateCatOfUsers = async (req, res) => {
 
 export const updateTimeIncoming = async (req, res) => {
     // PUT
-    var info = await client.query('SELECT last_income_updated FROM users WHERE tg_id = $1', [req.body.tg_id]);
+    var info = await client.query(`SELECT last_income_updated FROM users WHERE tg_id = ${req.body.tg_id}`);
     try {
         const today = new Date();
         const lastIncomeUpdated = new Date(info.rows[0].last_income_updated);
@@ -69,8 +84,8 @@ export const updateTimeIncoming = async (req, res) => {
         const diffDays = await Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
         if (diffDays >= 7) {
-            await client.query('UPDATE users SET incoming = $1 WHERE tg_id = $2', [0, req.body.tg_id]);
-            await client.query('UPDATE users SET last_income_updated = $1 WHERE tg_id = $2', [today, req.body.tg_id]);
+            await client.query(`UPDATE users SET incoming = 0 WHERE tg_id = ${req.body.tg_id}`);
+            await client.query(`UPDATE users SET last_income_updated = ${today} WHERE tg_id = ${req.body.tg_id}`);
             await res.json({success: true});
         } else {
             await res.json({success: false});
@@ -83,7 +98,7 @@ export const updateTimeIncoming = async (req, res) => {
 }
 export const updateIncome = async (req, res) => {
     // PUT
-    var info = await client.query('UPDATE users SET income = income + $1 WHERE tg_id = $2', [req.body.income, req.body.tg_id]);
+    var info = await client.query(`UPDATE users SET income = income + ${req.body.income} WHERE tg_id = ${req.body.tg_id}`);
     try {
         await res.json(info);
     } catch(err) {
@@ -95,10 +110,14 @@ export const updateIncome = async (req, res) => {
 
 export const enterPromocode = async (req, res) => {
     // PUT
-    var info = await client.query('SELECT discount from promo WHERE code = $1', [req.body.promocode]);
+    var info = await client.query(`SELECT discount from promo WHERE code = ${req.body.promocode}`);
     try {
+        if (info.rows.length === 0) {
+            await res.json({success: false, error: 'Promocode not found'});
+            return;
+        }
         const dis = info.rows[0]['discount'];
-        await client.query('UPDATE users SET balance = balance + $1 WHERE tg_id = $2', [dis, req.body.tg_id]);
+        await client.query(`UPDATE users SET balance = balance + ${dis} WHERE tg_id = ${req.body.tg_id}`);
         req.body.income = dis;
         await fetch('http://localhost:3000/api/updateincome', {
             method: 'PUT',
@@ -114,10 +133,11 @@ export const enterPromocode = async (req, res) => {
             },
             body: JSON.stringify({tg_id: req.body.tg_id})
         })
+        await client.query(`DELETE FROM promo WHERE code = ${req.body.promocode}`);
         await res.json({'success': true});
     } catch (err) {
         await console.log(err);
         await errorLogStream.write(`Error while fetching user info: ${err.message}\n`);
-        await res.json({error: 'Error while fetching user info'})
+        await res.json({error: err.message});
     }
 }

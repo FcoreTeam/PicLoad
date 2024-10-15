@@ -16,14 +16,18 @@ export async function addUser(ctx) {
             query = `INSERT INTO users (tg_id, username, first_name, from_ref_id) VALUES (${ctx.from.id}, '${ctx.from.username}', '${ctx.from.first_name}', ${ctx.payload || null})`;
         }
         await client.query(query);
-        ctx.reply('Привет, ' + ctx.from.username,
-            Markup.keyboard([
-                Markup.button.webApp('Let\'s go', total_url),
-            ], ).oneTime());
+        info = await client.query('SELECT * FROM category');
+        await info.rows.forEach(async (row) => {
+            await client.query(`INSERT INTO cat_of_user (user_tg_id, category_id) VALUES (${ctx.from.id}, ${row['id']})`)
+        })
+        await ctx.reply('Привет, ' + ctx.from.username,
+            await Markup.keyboard([
+                await Markup.button.webApp('Let\'s go', total_url),
+            ], ).resize());
     } else {
-        ctx.reply('Привет, ' + ctx.from.username + '. Еще раз!', 
-            Markup.keyboard([
-                Markup.button.webApp('Let\'s go', total_url),
-            ], ).oneTime());
+        await ctx.reply('Привет, ' + ctx.from.username + '. Еще раз!', 
+            await Markup.keyboard([
+                await Markup.button.webApp('Let\'s go', total_url),
+            ], ).resize());
     }
 };
