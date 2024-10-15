@@ -26,25 +26,28 @@ export const getUserInfo = async (req, res) => {
 export const getCatOfUser = async (req, res) => {
     // GET
     try {
-        var info = await client.query(`SELECT * FROM cat_of_user WHERE user_tg_id = ${req.query.user_tg_id}`);
+        var info = await client.query(`SELECT c.title, cu.quantity
+FROM category c
+JOIN cat_of_user cu ON c.id = cu.category_id
+WHERE cu.user_tg_id = ${req.query.tg_id};`);
         await res.json(info.rows);
     } catch (err) {await 
         await console.log(err);
     }
 }
 
-export const getCategory = async (req, res) => {
-    // GET
-    try {
-        var info = await client.query(`SELECT * FROM category WHERE id = ${req.query.id}`);
-        await res.json(info.rows);
-    } catch (err) {
-        await console.log(err);
-        await errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
-        await res.json({error: 'Error while fetching categories'})
-    }
+// export const getCategory = async (req, res) => {
+//     // GET
+//     try {
+//         var info = await client.query(`SELECT * FROM category WHERE id = ${req.query.id}`);
+//         await res.json(info.rows);
+//     } catch (err) {
+//         await console.log(err);
+//         await errorLogStream.write(`Error while fetching categories: ${err.message}\n`);
+//         await res.json({error: 'Error while fetching categories'})
+//     }
     
-}
+// }
 
 export const memberStatus = async (req, res) => {
     // GET
