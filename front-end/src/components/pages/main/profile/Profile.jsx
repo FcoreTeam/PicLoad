@@ -9,23 +9,25 @@ import walletImg from "../../../../img/icons/wallet.svg";
 import arrowToLeft from "../../../../img/icons/arrowToLeft.svg";
 import arrowToRight from "../../../../img/icons/arrowToRight.svg";
 import styles from "./profile.module.scss";
+import { getProfileData } from "../../../../api/requests";
 
 const Profile = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/?tg_id=${new URLSearchParams(window.location.search).get("tg_id")}`)
+    getProfileData()
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
-  let { name, username, avatar, memoryAll, memoryUse, income } =
-    useSelector((state) => state.user);
-    income = parseFloat(data.income).toFixed(2);
-    name = data.first_name;
-    username = "@"+data.username;
-    memoryAll = data.max_storage;
-    memoryUse = data.current_storage;
 
+  let { name, username, avatar, memoryAll, memoryUse, income } = useSelector(
+    (state) => state.user
+  );
+  income = parseFloat(data.income).toFixed(2);
+  name = data.first_name;
+  username = "@" + data.username;
+  memoryAll = data.max_storage;
+  memoryUse = data.current_storage;
 
   return (
     <>
@@ -70,4 +72,3 @@ const Profile = () => {
   );
 };
 export default Profile;
-
