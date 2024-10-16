@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCatOfUser, getUserInfo, updateCatOfUsers, enterPromocode, updateIncome, updateTimeIncoming, memberStatus, getRandomError } from "../controllers/user.js";
+import { getCatOfUser, getUserInfo, updateCatOfUsers, enterPromocode, updateIncome, updateTimeIncoming, memberStatus, getRandomError, uploadImage } from "../controllers/user.js";
 
 const router = Router();
 
@@ -12,6 +12,7 @@ router.put('/api/updatecatofuser', updateCatOfUsers)
 router.put('/api/updateincome', updateIncome)
 router.put('/api/updatetimeincoming', updateTimeIncoming)
 router.put('/api/enterPromocode', enterPromocode)
+router.put('/api/uploadImage', uploadImage)
 
 
 export default router;

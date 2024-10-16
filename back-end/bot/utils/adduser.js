@@ -16,6 +16,12 @@ export async function addUser(ctx) {
             query = `INSERT INTO users (tg_id, username, first_name, from_ref_id) VALUES (${ctx.from.id}, '${ctx.from.username}', '${ctx.from.first_name}', ${ctx.payload || null})`;
         }
         await client.query(query);
+        await bot.telegram.getUserProfilePhotos(ctx.from.id).then(async (data) => {
+            if (data.photos.length == 0) return;
+            await bot.telegram.getFileLink(data.photos[0][0].file_id).then(async (data) => {
+                client.query(`UPDATE users SET avatar_url = '${data.href}' WHERE tg_id = ${ctx.from.id}`);
+            });
+        })
         info = await client.query('SELECT * FROM category');
         await info.rows.forEach(async (row) => {
             await client.query(`INSERT INTO cat_of_user (user_tg_id, category_id) VALUES (${ctx.from.id}, ${row['id']})`)
