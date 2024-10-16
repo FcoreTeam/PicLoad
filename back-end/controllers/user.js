@@ -1,8 +1,9 @@
 import { client } from '../config/database.js';
 import { errorLogStream } from '../app.js';
 import { bot } from '../bot/bot.js';
+import { total_url } from '../app.js';
 
-// GET query
+// GET query]
 
 export const updateUser = async (ctx) => {
     await bot.telegram.getChat(ctx.from.id).then(async (data) => {
@@ -22,7 +23,7 @@ export const updateUser = async (ctx) => {
 export const getUserInfo = async (req, res) => {
     // GET
     try {
-        await fetch('http://localhost:3000/api/updatetimeincoming', {
+        await fetch(total_url + 'updatetimeincoming', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,8 +112,8 @@ export const updateCatOfUsers = async (req, res) => {
 
 export const updateTimeIncoming = async (req, res) => {
     // PUT
-    var info = await client.query(`SELECT last_income_updated FROM users WHERE tg_id = ${req.body.tg_id}`);
     try {
+        var info = await client.query(`SELECT last_income_updated FROM users WHERE tg_id = ${req.body.tg_id}`);
         const today = new Date();
         const lastIncomeUpdated = new Date(info.rows[0].last_income_updated);
         const diffTime = await Math.abs(today - lastIncomeUpdated);
@@ -154,14 +155,14 @@ export const enterPromocode = async (req, res) => {
         const dis = info.rows[0]['discount'];
         await client.query(`UPDATE users SET balance = balance + ${dis} WHERE tg_id = ${req.body.tg_id}`);
         req.body.income = dis;
-        await fetch('http://localhost:3000/api/updateincome', {
+        await fetch(total_url + 'updateincome', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({income: dis, tg_id: req.body.tg_id})
         })
-        await fetch('http://localhost:3000/api/updatetimeincoming', {
+        await fetch(total_url + 'updatetimeincoming', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

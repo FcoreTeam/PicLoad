@@ -1,8 +1,10 @@
 import { Markup } from 'telegraf'
 import { client } from '../../config/database.js';
+import { total_url } from '../../app.js';
+
+let url = total_url;
 
 export async function addUser(ctx) {
-    let url = process.env.NGROK || null
     if (url === null) {
         await ctx.reply('Что-то пошло не так')
         return
