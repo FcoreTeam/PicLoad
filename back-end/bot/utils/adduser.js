@@ -1,15 +1,16 @@
 import { Markup } from 'telegraf'
 import { client } from '../../config/database.js';
-import { total_url } from '../../app.js';
+import dotenv from 'dotenv';
+dotenv.config('../../.env');
 
-let url = total_url;
+let url = process.env.NGROK;
 
 export async function addUser(ctx) {
     if (url === null) {
         await ctx.reply('Что-то пошло не так')
         return
     }
-    const total_url = url + ctx.from.id
+    const total_url = `${url}?tg_id=${ctx.from.id}`;
     let query = `SELECT * FROM users WHERE tg_id = ${ctx.from.id}`;
     let info = await client.query(query);
     if (info.rows.length <= 0) {
