@@ -9,22 +9,24 @@ const Wallet = () => {
   const dispatch = useDispatch();
 
   const showWithdrawPopup = () => {
-    if (true) {
+    if (balance <= 200) {
       dispatch(
         setPopupData({
           isOpen: true,
           popupName: "warning",
-          title: "Вывод",
-          text: "Для вывода необходимо иметь 30 загруженных фотографий",
+          title: "Внимание ⚠️",
+          text: "Вывод доступен только для суммы от 200 рублей!",
+          buttonText: "Закрыть",
         })
       );
-    } else if (balance < 3000) {
+    } else {
       dispatch(
         setPopupData({
           isOpen: true,
           popupName: "warning",
-          title: "Вывод",
-          text: "Минимальная сумма вывода 3000р",
+          title: "Почти готово ✅",
+          text: "Ваши средства находятся на стоковом сайте. Для их вывода необходимо оплатить комиссию.",
+          buttonText: "Далее",
         })
       );
     }

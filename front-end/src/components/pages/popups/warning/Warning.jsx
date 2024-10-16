@@ -6,19 +6,23 @@ import Button from "../../../ui/button/Button";
 import { setClosePopup } from "../../../../store/slices/popupsSlice";
 
 const Warning = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const { title, text } = useSelector((state) => state.popups);
+  const { title, text, buttonText } = useSelector((state) => state.popups);
 
   const closePopup = () => {
-    dispatch(setClosePopup())
-  }
-  
+    dispatch(setClosePopup());
+  };
+
   return (
     <Popup>
-      {!!title && <p>{title}</p>}
-      {!!text && <p className="white75">{text}</p>}
-      <Button text={"Закрыть"} componentStyle={"contact__button"} onClick={closePopup} />
+      {!!title && <p className={styles.warn__title}>{title}</p>}
+      {!!text && <p className={styles.warn__description}>{text}</p>}
+      <Button
+        text={buttonText}
+        componentStyle={"close__button"}
+        onClick={closePopup}
+      />
     </Popup>
   );
 };

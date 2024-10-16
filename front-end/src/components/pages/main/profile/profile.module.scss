@@ -1,26 +1,16 @@
 .profile__block {
-  width: 80%;
   height: 80px;
   border-radius: 20px;
-  // background: #202020;
   justify-content: space-between;
   margin-top: 20px;
   position: relative;
   display: flex;
   align-items: center;
-  // background: linear-gradient(to right, #202020, #202020)
-  //     padding-box,
-  //   linear-gradient(
-  //       180deg,
-  //       rgba(255, 255, 255, 0.1) 0%,
-  //       rgba(37, 37, 37, 0.1) 100%
-  //     )
-  //     border-box;
-  // border: 1px solid transparent;
-  background: url('../../../../img/banners/contentbackground.png');
+  min-width: 320px; // Оставим это, чтобы не было слишком маленьким
+  width: 80%; // Устанетсяовим ширину на 100% для резиновости
+  background: url("../../../../img/banners/contentbackground.png");
   background-repeat: no-repeat;
   background-size: cover;
-
 
   .circle__avatar {
     border-radius: 50%;
@@ -56,7 +46,7 @@
     align-items: flex-end;
     justify-content: center;
 
-    &.balance__section{
+    &.balance__section {
       align-items: flex-start;
     }
 
@@ -133,23 +123,28 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
       -webkit-background-clip: text;
-      img{
+      img {
         margin-left: 5px;
       }
     }
   }
 }
 
-.profile__name{
+.profile__name {
   margin-top: 40px;
   color: #fff;
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 2px;
 }
-.profile__username{
-  color: #FFC018;
+.profile__username {
+  color: #ffc018;
   font-size: 12px;
   font-weight: 400;
   margin-top: 10px;
+}
+@media(max-width: 426px){
+  .profile__block{
+    width: 90%;
+  }
 }

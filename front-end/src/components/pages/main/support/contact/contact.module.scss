@@ -33,5 +33,22 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 426px) {
+  .contact {
+    justify-content: space-between;
+    .contact__info {
+      min-width: 200px;
+      width: fit-content;
+      .contact__name {
+        font-size: 14px;
+      }
+      .contact__description {
+        font-size: 11px;
+      }
+    }
   }
 }
