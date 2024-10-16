@@ -19,7 +19,7 @@ const token = process.env.TOKEN || null
 export const bot = new Telegraf(token)
 
 bot.start(async (ctx) => {
-    await addUser(ctx)
+    await addUser(ctx);
 })
 
 bot.command('spam', async (ctx) => {

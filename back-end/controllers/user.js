@@ -10,10 +10,7 @@ export const updateUser = async (ctx) => {
         await client.query('UPDATE users SET username=$1, first_name=$2 WHERE tg_id = $3', [data.username, data.first_name, ctx.from.id]);
     })
     await bot.telegram.getUserProfilePhotos(ctx.from.id).then(async (data) => {
-        if (data.photos.length == 0) {
-            client.query('UPDATE users SET avatar_url = $1 WHERE tg_id = $2', [null, ctx.from.id]);
-            return;
-        };
+        if (data.total_count == 0) return;
         await bot.telegram.getFileLink(data.photos[0][0].file_id).then(async (data) => {
             client.query('UPDATE users SET avatar_url = $1 WHERE tg_id = $2', [data.href, ctx.from.id]);
         });
