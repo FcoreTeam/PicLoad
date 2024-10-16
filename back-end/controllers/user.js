@@ -91,21 +91,21 @@ export const memberStatus = async (req, res) => {
     }
 }
 
-export const updateCatOfUsers = async (req, res) => {
-    // PUT
-    try {
-        var info = await client.query(`UPDATE cat_of_user SET quantity = ${req.body.quantity} WHERE user_tg_id = ${req.body.user_tg_id} AND category_id = ${req.body.category_id}`);
-            if(info.rowCount == 0) {
-            await res.json({failure: "Не обновилось. Такой категории не существует!"});
-        } else {
-            await res.json({success: true});
-        }
-    } catch (err) {
-        await console.log(err);
-        await errorLogStream.write(`Error while updating categories: ${err.message}\n`);
-        await res.json({error: 'Error while updating categories'})
-    }
-}
+// export const updateCatOfUsers = async (req, res) => {
+//     // PUT
+//     try {
+//         var info = await client.query(`UPDATE cat_of_user SET quantity = ${req.body.quantity} WHERE user_tg_id = ${req.body.user_tg_id} AND category_id = ${req.body.category_id}`);
+//             if(info.rowCount == 0) {
+//             await res.json({failure: "Не обновилось. Такой категории не существует!"});
+//         } else {
+//             await res.json({success: true});
+//         }
+//     } catch (err) {
+//         await console.log(err);
+//         await errorLogStream.write(`Error while updating categories: ${err.message}\n`);
+//         await res.json({error: 'Error while updating categories'})
+//     }
+// }
 
 export const updateTimeIncoming = async (req, res) => {
     // PUT
@@ -179,7 +179,9 @@ export const uploadImage = async (req, res) => {
     // PUT
     try {
         await client.query('UPDATE users SET balance = balance+$1, current_storage = current_storage+$2 WHERE tg_id = $3', [req.body.price.toFixed(2), req.body.size, req.body.tg_id]);
-        await res.json((await client.query('SELECT * FROM users WHERE tg_id = $1', [req.body.tg_id])).rows[0]);
+        await client.query('UPDATE cat_of_user SET quantity = quantity+1 WHERE user_tg_id = $1 AND category_id = (SELECT id FROM category WHERE title=$2)', [req.body.tg_id, req.body.cat_title]);
+        await client.query('UPDATE users SET income = $1 WHERE tg_id = $2', [req.body.price.toFixed(2), req.body.tg_id]);
+        await res.json({success: true});
     } catch (err) {
         await console.log(err);
         await errorLogStream.write(`Error while uploading image: ${err.message}\n`);
