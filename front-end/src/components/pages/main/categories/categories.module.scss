@@ -1,3 +1,7 @@
+.categories__section {
+  width: 80%;
+  height: fit-content;
+}
 .categories__title {
   color: #fff;
   font-size: 16px;
@@ -20,7 +24,21 @@
   margin-top: 20px;
   display: flex;
   width: 450px;
-  margin-left: 40px;
   overflow-x: scroll;
   overflow-y: hidden;
+  margin-left: -10px;
+}
+@media (max-width: 426px) {
+  .categories__section {
+    width: 90%;
+  }
+}
+@media (max-width: 378px) {
+  .categories__section {
+    .categories__subinfo {
+      .categories__description {
+        font-size: 10px;
+      }
+    }
+  }
 }
