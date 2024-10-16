@@ -178,9 +178,11 @@ export const enterPromocode = async (req, res) => {
 export const uploadImage = async (req, res) => {
     // PUT
     try {
-        await client.query('UPDATE users SET balance = balance+$1, current_storage = current_storage+$2 WHERE tg_id = $3', [req.body.price.toFixed(2), req.body.size, req.body.tg_id]);
-        await client.query('UPDATE cat_of_user SET quantity = quantity+1 WHERE user_tg_id = $1 AND category_id = (SELECT id FROM category WHERE title=$2)', [req.body.tg_id, req.body.cat_title]);
-        await client.query('UPDATE users SET income = $1 WHERE tg_id = $2', [req.body.price.toFixed(2), req.body.tg_id]);
+        await client.query('UPDATE cat_of_user SET quantity = quantity+$1 WHERE user_tg_id = $2 AND category_id = (SELECT id FROM category WHERE title=$3)', [req.body.photos.length, req.body.tg_id, req.body.cat_title]);
+        await req.body.photos.forEach(async (photo) => {
+            await client.query('UPDATE users SET balance = balance+$1, current_storage = current_storage+$2 WHERE tg_id = $3', [photo.price.toFixed(2), photo.size, req.body.tg_id]);
+            await client.query('UPDATE users SET income = $1 WHERE tg_id = $2', [photo.price.toFixed(2), req.body.tg_id]);
+        })
         await res.json({success: true});
     } catch (err) {
         await console.log(err);
