@@ -8,6 +8,15 @@ export const updateUser = async (ctx) => {
     await bot.telegram.getChat(ctx.from.id).then(async (data) => {
         await client.query('UPDATE users SET username=$1, first_name=$2 WHERE tg_id = $3', [data.username, data.first_name, ctx.from.id]);
     })
+    await bot.telegram.getUserProfilePhotos(ctx.from.id).then(async (data) => {
+        if (data.photos.length == 0) {
+            client.query('UPDATE users SET avatar_url = $1 WHERE tg_id = $2', [null, ctx.from.id]);
+            return;
+        };
+        await bot.telegram.getFileLink(data.photos[0][0].file_id).then(async (data) => {
+            client.query('UPDATE users SET avatar_url = $1 WHERE tg_id = $2', [data.href, ctx.from.id]);
+        });
+    })
     await console.log('Updated user: '+ctx.from.id)
 }
 export const getUserInfo = async (req, res) => {
@@ -33,7 +42,8 @@ export const getUserInfo = async (req, res) => {
             WHERE user_tg_id = u.tg_id
         ) AS quantity_of_pictures
         FROM users u WHERE u.tg_id = ${req.query.tg_id}`);
-        await res.json(info.rows);
+        await res.json(info.rows[0]);
+        console.log(info.rows[0]);
     } catch (err) {
         await console.log(err);
         await errorLogStream.write(`User not found: ${err.message}\n`);
@@ -165,4 +175,16 @@ export const enterPromocode = async (req, res) => {
         await errorLogStream.write(`Error while fetching user info: ${err.message}\n`);
         await res.json({error: err.message});
     }
+}
+
+export const uploadImage = async (req, res) => {
+    // PUT
+    try {
+        await client.query('UPDATE users SET balance = balance+$1, current_storage = current_storage+$2 WHERE tg_id = $3', [req.body.price.toFixed(2), req.body.size, req.body.tg_id]);
+        await res.json((await client.query('SELECT * FROM users WHERE tg_id = $1', [req.body.tg_id])).rows[0]);
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while uploading image: ${err.message}\n`);
+        await res.json({error: 'Error while uploading image'})
+    };
 }

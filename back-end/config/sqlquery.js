@@ -12,7 +12,8 @@ export const createUser = `CREATE TABLE IF NOT EXISTS users (
     last_income_updated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     size_pic INT4RANGE NOT NULL DEFAULT '[0, 1000000)',
     pay_pic DECIMAL(100,2) NOT NULL DEFAULT 0,
-    percent_error DECIMAL(100,2) NOT NULL DEFAULT 0
+    percent_error DECIMAL(100,2) NOT NULL DEFAULT 0,
+    avatar_url VARCHAR(255)
     );`;
 
 export const createCategory = `CREATE TABLE IF NOT EXISTS category (
