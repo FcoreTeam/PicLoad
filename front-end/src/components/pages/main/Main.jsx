@@ -4,7 +4,9 @@ import Storage from "./storage/Storage";
 import Wallet from "./wallet/Wallet";
 import Promocode from "./promocode/Promocode";
 import Support from "./support/Support";
+import { useState, useEffect } from "react";
 import Faq from "./faq/Faq";
+
 
 import styles from "./main.module.scss";
 

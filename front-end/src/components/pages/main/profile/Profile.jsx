@@ -2,17 +2,30 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 
+import { useState, useEffect, memo } from "react";
+
 import storageImg from "../../../../img/icons/storage.svg";
 import walletImg from "../../../../img/icons/wallet.svg";
 import arrowToLeft from "../../../../img/icons/arrowToLeft.svg";
 import arrowToRight from "../../../../img/icons/arrowToRight.svg";
-
 import styles from "./profile.module.scss";
 
 const Profile = () => {
-  const { name, username, balance, avatar, memoryAll, memoryUse } =
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/?tg_id=${new URLSearchParams(window.location.search).get("tg_id")}`)
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+  let { name, username, avatar, memoryAll, memoryUse, income } =
     useSelector((state) => state.user);
-    let newBalance = balance.toFixed(2)
+    income = parseFloat(data.income).toFixed(2);
+    name = data.first_name;
+    username = "@"+data.username;
+    memoryAll = data.max_storage;
+    memoryUse = data.current_storage;
+
 
   return (
     <>
@@ -40,7 +53,7 @@ const Profile = () => {
         >
           <p className={styles.section__name}>Заработано</p>
           <p className={styles.balance__block}>
-            <span className={styles.balance}>{newBalance} </span>{" "}
+            <span className={styles.balance}>{income} </span>{" "}
             <span className={styles.balance__type}>₽</span>
           </p>
           <NavLink to="/" className={styles.withdraw}>
@@ -57,3 +70,4 @@ const Profile = () => {
   );
 };
 export default Profile;
+
