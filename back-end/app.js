@@ -13,7 +13,7 @@ initCreateAllTables(client);
 
 dotenv.config();
 
-export let total_url = process.env.NGROK || null
+export let total_url = process.env.DEV_URL || null
 
 const app = express();
 const PORT = process.env.PORT || 3000;
