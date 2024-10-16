@@ -1,5 +1,6 @@
 import { Markup } from 'telegraf'
 import { client } from '../../config/database.js';
+import { bot } from '../../bot/bot.js';
 import dotenv from 'dotenv';
 dotenv.config('../../.env');
 
