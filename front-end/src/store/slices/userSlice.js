@@ -16,6 +16,12 @@ const userSlice = createSlice({
   name: "user",
   initialState: profileState,
   reducers: {
+    updateUserData: (state, action) => {
+      return {
+        ...state,
+        ...action.payload
+      }
+    },
     updateBalance: (state, action) => {
       state.balance = action.payload;
     },
@@ -25,6 +31,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateBalance, updatePercent } = userSlice.actions;
+export const { updateBalance, updatePercent, updateUserData } = userSlice.actions;
 
 export default userSlice.reducer;
