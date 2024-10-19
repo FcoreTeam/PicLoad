@@ -17,7 +17,7 @@
     // height: 206px;
     background: #0d0d0d;
     position: fixed;
-    bottom: 80px;
+    top: calc(100vh - 280px);
     left: 0;
     text-align: center;
     background: linear-gradient(#0d0d0d, #0d0d0d) padding-box,
@@ -31,7 +31,7 @@
     padding: 32px 22px 32px 22px;
     border-bottom: none;
     border-radius: 26px 26px 0 0;
-    transition: 0.3s;
+    transition: 0s;
     display: flex;
     flex-flow: column;
     align-items: center;

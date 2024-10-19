@@ -22,7 +22,8 @@ const Popup = ({ children }) => {
       popupWindowRef.current &&
       !popupWindowRef.current.contains(event.target)
     ) {
-      popupWindowRef.current.style.bottom = "-50%";
+      popupWindowRef.current.style.transition = ".3s";
+      popupWindowRef.current.style.top = "100vh";
       setTimeout(() => {
         closePopupFunc();
       }, 200);

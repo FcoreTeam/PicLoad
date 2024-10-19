@@ -1,23 +1,23 @@
 export const touchMoveClosePopup = (e, popupWindowRef, action) => {
-  const fingerPos =
-    screen.height - e.touches[0].clientY - e.target.offsetHeight;
-  console.log(fingerPos > -70 && fingerPos < 80)
-  if (fingerPos > 80) return;
-  if (fingerPos < -70) {
-    popupWindowRef.current.style.bottom = "-50%";
+  const pos = screen.height - e.touches[0].clientY
+  popupWindowRef.current.style.transition = "0s";
+  if (pos > 280) return;
+  if (pos < 140) {
+    popupWindowRef.current.style.top = "100vh";
+    popupWindowRef.current.style.transition = ".3s";
     setTimeout(() => {
       action()
     }, 300);
     return;
   }
-  popupWindowRef.current.style.bottom = fingerPos + "px";
+  popupWindowRef.current.style.top = e.touches[0].clientY + "px";
 };
 
 export const touchMoveEndClosePopup = (e, popupWindowRef) => {
-  const fingerPos =
-    screen.height - e.changedTouches[0].clientY - e.target.offsetHeight;
-  if (fingerPos > -70 && fingerPos < 80) {
-    popupWindowRef.current.style.bottom = "80px";
+  const pos = screen.height - e.changedTouches[0].clientY
+  popupWindowRef.current.style.transition = ".3s";
+  if (pos > 140 && pos < 280) {
+    popupWindowRef.current.style.top = "calc(100vh - 280px)";
     return;
   }
 }
