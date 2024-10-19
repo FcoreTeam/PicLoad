@@ -69,7 +69,8 @@
       width: 50%;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
+      margin-right: 15px;
       .withdraw {
         background: linear-gradient(138.01deg, #f3b33c -1.58%, #f2345d 104.27%);
         height: 55px;

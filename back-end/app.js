@@ -27,7 +27,7 @@ if (!fs.existsSync(logDirectory)) {
 }
 
 app.listen(PORT, () => {
-    console.log(`App is running on port ${PORT}`);
+  console.log(`Listening on port ${PORT}`);
 });
 
 bot.launch();

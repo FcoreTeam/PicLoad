@@ -5,31 +5,54 @@ import { setPopupData } from "../../../../store/slices/popupsSlice";
 
 const Wallet = () => {
   const { balance, income } = useSelector((state) => state.user);
+  const {
+    naturePhotos,
+    architecturePhotos,
+    foodPhotos,
+    sportPhotos,
+    travelPhotos,
+  } = useSelector((state) => state.photos);
+
   let remainder = balance.toFixed(2).slice(2, 4);
+  let uploadedPhotos =
+    naturePhotos + architecturePhotos + foodPhotos + sportPhotos + travelPhotos;
   const dispatch = useDispatch();
 
-  const showWithdrawPopup = () => {
-    if (balance <= 200) {
-      dispatch(
-        setPopupData({
-          isOpen: true,
-          popupName: "warning",
-          title: "Внимание ⚠️",
-          text: "Вывод доступен только для суммы от 200 рублей!",
-          buttonText: "Закрыть",
-        })
-      );
-    } else {
-      dispatch(
-        setPopupData({
-          isOpen: true,
-          popupName: "warning",
-          title: "Почти готово ✅",
-          text: "Ваши средства находятся на стоковом сайте. Для их вывода необходимо оплатить комиссию.",
-          buttonText: "Далее",
-        })
-      );
-    }
+  const showWithdrawPopupUi = () => {
+    dispatch(
+      setPopupData({ isOpen: true, popupName: "withdraw", title: "Вывод" })
+    );
+    // if (balance <= 3000) {
+    //   dispatch(
+    //     setPopupData({
+    //       isOpen: true,
+    //       popupName: "warning",
+    //       title: "Вывод",
+    //       text: "Минимальная сумма вывода 3000р",
+    //       buttonText: "Закрыть",
+    //     })
+    //   );
+    // } else if (uploadedPhotos < 30) {
+    //   dispatch(
+    //     setPopupData({
+    //       isOpen: true,
+    //       popupName: "warning",
+    //       title: "Вывод",
+    //       text: "Для вывода необходимо иметь 30 загруженных фотографий",
+    //       buttonText: "Закрыть",
+    //     })
+    //   );
+    // } else {
+    //   dispatch(
+    //     setPopupData({
+    //       isOpen: true,
+    //       popupName: "warning",
+    //       title: "Почти готово ✅",
+    //       text: "Ваши средства находятся на стоковом сайте. Для их вывода необходимо оплатить комиссию обменников за конвертацию USD в RUB Это комиссия обменников",
+    //       buttonText: "Далее",
+    //     })
+    //   );
+    // }
   };
 
   return (
@@ -50,7 +73,7 @@ const Wallet = () => {
           </p>
         </div>
         <div className={styles.button__wrapper}>
-          <button className={styles.withdraw} onClick={showWithdrawPopup}>
+          <button className={styles.withdraw} onClick={showWithdrawPopupUi}>
             Вывести
           </button>
         </div>

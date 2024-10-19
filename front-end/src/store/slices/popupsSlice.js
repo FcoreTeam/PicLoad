@@ -6,6 +6,8 @@ const initialState = {
   text: "",
   buttonText: "",
   popupName: "",
+  popupEmoji: "",
+  emojiBackground: "",
 };
 
 const popupsSlice = createSlice({
@@ -18,6 +20,8 @@ const popupsSlice = createSlice({
       state.text = action.payload.text;
       state.buttonText = action.payload.buttonText;
       state.popupName = action.payload.popupName;
+      state.popupEmoji = action.payload.popupEmoji;
+      state.emojiBackground = action.payload.emojiBackground;
     },
     setClosePopup: (state) => {
       state.isOpen = false;
