@@ -1,9 +1,14 @@
 import React from "react";
-import Warning from "./popups/warning/Warning";
-import Navbar from "./navbar/Navbar";
 import { Outlet } from "react-router-dom";
-import Popup from "./popups/Popup";
 import { useSelector } from "react-redux";
+
+import Warning from "./popups/warning/Warning";
+import Upload from "./popups/upload/Upload";
+import Withdraw from "./popups/withdraw/Withdraw";
+import Navbar from "./navbar/Navbar";
+
+
+
 
 const Layout = () => {
   const { isOpen, popupName } = useSelector((state) => state.popups);
@@ -13,6 +18,8 @@ const Layout = () => {
       <Outlet />
       <Navbar />
       {isOpen && popupName === "warning" && <Warning />}
+      {isOpen && popupName === "upload" && <Upload />}
+      {isOpen && popupName === "withdraw" && <Withdraw />}
     </>
   );
 };

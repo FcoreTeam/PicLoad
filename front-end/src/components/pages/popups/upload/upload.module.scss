@@ -1,0 +1,49 @@
+.emoji__wrapper {
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 19px;
+    height: 16px;
+  }
+  &.nature {
+    background: linear-gradient(138.01deg, #f3b33c -1.58%, #f2345d 104.27%);
+  }
+  &.architect {
+    background: linear-gradient(135deg, #cef61a 0%, #62fbcd 100%);
+  }
+  &.sport {
+    background: linear-gradient(0deg, #dbf1ff, #dbf1ff),
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(185, 230, 254, 0.6) 100%
+      );
+  }
+  &.eat {
+    background: linear-gradient(86.72deg, #04fcf4 -86.72%, #ffd1e6 113.66%);
+  }
+  &.adventure {
+    background: linear-gradient(210.96deg, #ffc60b 7.5%, #dd9b2f 92.5%);
+  }
+}
+.popup__title {
+  margin-top: 20px;
+  font-size: 22px;
+}
+.popup__content {
+  width: 100%;
+  height: 206px;
+  display: flex;
+  justify-content: center;
+  .uploader {
+    width: 331px;
+    height: 100%;
+    border: 1px dashed #ffc60b;
+    border-radius: 16px;
+  }
+}

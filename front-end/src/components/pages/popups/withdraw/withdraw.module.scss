@@ -1,0 +1,35 @@
+.popup__section {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 270px;
+  display: flex;
+  flex-flow: column;
+  .input__name {
+    color: #ffffff80 !important;
+    font-size: 12px !important;
+    letter-spacing: 1px;
+    margin-bottom: 0 !important;
+    text-align: left;
+    margin-top: 12px;
+  }
+  input {
+    border-radius: 15px;
+    height: 41px;
+    margin-top: 12px;
+    border-radius: 15px;
+    outline: none;
+
+    background: linear-gradient(#202020, #202020) padding-box,
+      linear-gradient(
+          109.28deg,
+          rgba(255, 255, 255, 0.15) -0.12%,
+          rgba(255, 255, 255, 0) 100.12%
+        )
+        border-box !important;
+    border: 1.5px solid transparent !important;
+    padding-left: 10px;
+    color: #ffffffbf;
+    letter-spacing: 1px;
+  }
+}
