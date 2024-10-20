@@ -1,11 +1,10 @@
 import axios from "axios"
 
-const SERVER_BASE_URL = process.env.SERVER_BASE_URL
-const SERVER_PORT = process.env.SERVER_PORT
+const DEV_URL = import.meta.env.DEV_URL
 
 const api = axios.create({
-  baseURL: `${SERVER_BASE_URL}:${SERVER_PORT}`,
+  baseURL: DEV_URL,
   timeout: 10000,
 });
 
-export const getProfileData = async (tgId) => await api.get(`/api/?tg_id=${tgId}`)
+export const getProfileData = async (tgId) => await api.get(`/?tg_id=${tgId}`)
