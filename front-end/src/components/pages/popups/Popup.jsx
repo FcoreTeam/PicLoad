@@ -17,6 +17,12 @@ const Popup = ({ children }) => {
     dispatch(setClosePopup());
   };
 
+  useEffect(() => {
+    popupWindowRef.current.style.top = `calc(100vh - ${
+      popupWindowRef.current.getBoundingClientRect().height
+    }px - 79px)`;
+  }, []);
+
   const closePopup = () => {
     if (
       popupWindowRef.current &&
@@ -31,15 +37,15 @@ const Popup = ({ children }) => {
   };
 
   return (
-    <div
-      className={styles.popup}
-      onClick={closePopup}
-      onTouchMove={(e) =>
-        touchMoveClosePopup(e, popupWindowRef, closePopupFunc)
-      }
-      onTouchEnd={(e) => touchMoveEndClosePopup(e, popupWindowRef)}
-    >
+    <div className={styles.popup} onClick={closePopup}>
       <section ref={popupWindowRef} className={styles.popup__window}>
+        <div
+          className={styles.popup__hand}
+          onTouchMove={(e) =>
+            touchMoveClosePopup(e, popupWindowRef.current, closePopupFunc)
+          }
+          onTouchEnd={(e) => touchMoveEndClosePopup(e, popupWindowRef.current)}
+        ></div>
         {children}
       </section>
     </div>

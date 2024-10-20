@@ -1,12 +1,8 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
 
 import styles from "./promocode.module.scss";
-import {
-  updatePromocodeText,
-} from "../../../../store/slices/promocodeSlice";
-
+import { updatePromocodeText } from "../../../../store/slices/promocodeSlice";
 
 const Promocode = () => {
   const dispatch = useDispatch();
@@ -15,12 +11,13 @@ const Promocode = () => {
 
   const updatePromocodeTextUi = () => {
     let text = getPromocode.current.value;
+  
     dispatch(updatePromocodeText(text));
   };
 
   const updatePromocode = () => {
     dispatch(updatePromocode());
-    debugger
+    debugger;
   };
 
   return (
@@ -36,6 +33,7 @@ const Promocode = () => {
           value={promocodeText}
           ref={getPromocode}
           onChange={updatePromocodeTextUi}
+          maxLength={19}
         />
         <button onClick={updatePromocode}>Ввести</button>
       </div>

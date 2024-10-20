@@ -1,5 +1,5 @@
 .shop__page {
-  width: 480px;
+  max-width: 480px;
   height: 100%;
   background: #0d0d0d;
   display: flex;
@@ -46,7 +46,7 @@
   }
   .shop__categories{
     width: 80%;
-    height: 500px;
+    height: fit-content;
     display: flex;
     flex-flow: column;
   }

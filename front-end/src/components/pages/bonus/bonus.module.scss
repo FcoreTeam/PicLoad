@@ -1,11 +1,12 @@
 .bonus__page {
-  width: 480px;
+  max-width: 480px;
   height: 100%;
   background: #0d0d0d;
   display: flex;
   flex-flow: column;
   align-items: center;
   padding-top: 50px;
+  padding-bottom: 120px;  
   .page__preview {
     width: 80%;
     height: 110px;
@@ -26,6 +27,7 @@
         color:  #FFFFFFBF;
         font-size: 14px;
         margin-top: 20px;
+        text-align: center;
      
     }
   }

@@ -1,7 +1,7 @@
 import UserBonus from "./userBonus/User-bonus";
 
 import telegramLogo from "../../../img/icons/telegramLogo.svg";
-import downloadLogo from "../../../img/icons/download.svg";
+import downloadLogo from "../../../img/icons/copy.svg";
 
 import styles from "./bonus.module.scss";
 
@@ -23,12 +23,28 @@ const Bonus = () => {
           buttonImage={telegramLogo}
         />
         <UserBonus
-          bonusState={true}
-          bonusReward={50}
+          bonusState={false}
+          bonusType="count"
+          counter={1}
+          bonusAsk="присоединились по вашей ссылке"
+          bonusReward={"∞"}
           buttonImage={downloadLogo}
-          bonusName="Скачайте приложение"
-          bonusDescription="Установите наше мобильное приложение и получите 50 рублей на счет."
-          bonusAsk="Как скачать?"
+          bonusName="Поделитесь с друзьями"
+          bonusDescription="Поделитесь своей реферальной ссылкой в социальных сетях и получите 450 рублей за каждого приглашенного друга."
+        />
+        <UserBonus
+          buttonHide={true}
+          bonusState={false}
+          bonusReward={150}
+          bonusName="Загрузите 50 фото"
+          bonusDescription="Загрузите 50 фотографий на платформу и получите 150 рублей на счет"
+        />
+        <UserBonus
+          buttonHide={true}
+          bonusState={false}
+          bonusReward={200}
+          bonusName="Загрузите 150 фото"
+          bonusDescription="Загрузите 150 фотографий на платформу и получите дополнительно 200 рублей на счет."
         />
       </div>
     </section>
