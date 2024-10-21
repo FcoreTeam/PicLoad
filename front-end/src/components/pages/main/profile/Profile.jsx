@@ -9,28 +9,39 @@ import walletImg from "../../../../img/icons/wallet.svg";
 import arrowToLeft from "../../../../img/icons/arrowToLeft.svg";
 import arrowToRight from "../../../../img/icons/arrowToRight.svg";
 import styles from "./profile.module.scss";
-import { getProfileData } from "../../../../api/requests";
+import { getUserData } from "../../../../api/requests";
 import { updateUserData } from "../../../../store/slices/userSlice";
+import { getIdFromAddress } from "../../../../helpers/helpers";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({});
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const tgId = queryParams.get("tg_id");
-    getProfileData(tgId).then(({ data: { avatar_url, first_name, username, current_storage, max_storage, income } }) => {
-      dispatch(
-        updateUserData({
-          avatar: avatar_url,
-          name: first_name,
-          username: `@${username}`,
-          income: parseFloat(income).toFixed(2),
-          memoryUse: current_storage,
-          memoryAll: max_storage
-        })
-      );
-    });
+    const tgId = getIdFromAddress();
+    getUserData(tgId).then(
+      ({
+        data: {
+          avatar_url,
+          first_name,
+          username,
+          current_storage,
+          max_storage,
+          income,
+        },
+      }) => {
+        dispatch(
+          updateUserData({
+            avatar: avatar_url,
+            name: first_name,
+            username: `@${username}`,
+            income: parseFloat(income).toFixed(2),
+            memoryUse: current_storage,
+            memoryAll: max_storage,
+          })
+        );
+      }
+    );
   }, []);
 
   let { name, username, avatar, memoryAll, memoryUse, income } = useSelector(

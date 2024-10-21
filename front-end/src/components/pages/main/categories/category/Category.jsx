@@ -13,7 +13,7 @@ const Category = ({ image, name, type, typeBackground, loaded, onClick }) => {
         <img src={image} alt="" className={styles.category__img} />
       </div>
       <p className={styles.category__name}>{name}</p>
-      <p className={styles.loaded__photos}>{loaded}</p>
+      <p className={styles.loaded__photos}>{loaded} загружено</p>
     </div>
   );
 };

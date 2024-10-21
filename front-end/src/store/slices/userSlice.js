@@ -10,6 +10,13 @@ export const profileState = {
   balance: 0,
   income: 0,
   isPremium: false,
+  categoriesPhotoCounts: {
+    naturePhotos: 0,
+    architecturePhotos: 0,
+    foodPhotos: 0,
+    sportPhotos: 40,
+    travelPhotos: 0,
+  }
 };
 
 const userSlice = createSlice({
@@ -28,6 +35,9 @@ const userSlice = createSlice({
     updatePercent: (state, action) => {
       state.memoryPercent = action.payload;
     },
+    updateCategoriesPhotoCounts: (state, action) => {
+      state.categoriesPhotoCounts = action.payload;
+    }
   },
 });
 

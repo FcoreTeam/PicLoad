@@ -1,24 +1,32 @@
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import Category from "./category/Category";
+
+import { setPopupData } from "../../../../store/slices/popupsSlice";
+import { enterPromocode, getUserCategoryData } from "../../../../api/requests";
+import { sortCategoriesData } from "../../../../helpers/helpers";
 
 import styles from "./categories.module.scss";
 
-import Category from "./category/Category";
-import natureImg from "../../../../img/icons/nature.svg";
-import architectImg from "../../../../img/icons/architect.svg";
-import sportImg from "../../../../img/icons/sport.svg";
-import eatImg from "../../../../img/icons/food.svg";
-import adventureImg from "../../../../img/icons/adventure.svg";
-import { setPopupData } from "../../../../store/slices/popupsSlice";
-
 const Categories = () => {
-  const {
-    naturePhotos,
-    architecturePhotos,
-    foodPhotos,
-    sportPhotos,
-    travelPhotos,
-  } = useSelector((state) => state.photos);
+  // const {
+  //   naturePhotos,
+  //   architecturePhotos,
+  //   foodPhotos,
+  //   sportPhotos,
+  //   travelPhotos,
+  // } = useSelector((state) => state.user.categoriesPhotoCounts);
   const dispatch = useDispatch();
+
+  const [categoriesData, setCategoriesData] = useState([]);
+
+  useEffect(() => {
+    getUserCategoryData().then((res) => {
+      const categoryArray = sortCategoriesData(res.data);
+      setCategoriesData(categoryArray);
+    });
+  }, []);
 
   const showPopup = (popupEmoji, emojiBackground) => {
     dispatch(
@@ -42,7 +50,20 @@ const Categories = () => {
         </p>
       </div>
       <section className={styles.categories}>
-        <Category
+        {categoriesData.map(
+          ({ image, name, type, typeBackground, loaded }, i) => (
+            <Category
+              key={i}
+              image={image}
+              name={name}
+              type={type}
+              typeBackground={typeBackground}
+              loaded={loaded}
+              onClick={() => showPopup(image, type)}
+            />
+          )
+        )}
+        {/* <Category
           image={natureImg}
           name="Природа"
           type="nature"
@@ -81,7 +102,7 @@ const Categories = () => {
           typeBackground="adventure__bg"
           loaded={`${travelPhotos} загружено`}
           onClick={() => showPopup(adventureImg, "adventure")}
-        />
+        /> */}
       </section>
     </section>
   );
