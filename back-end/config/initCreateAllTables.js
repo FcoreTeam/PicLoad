@@ -12,10 +12,11 @@ export function initCreateAllTables(client) {
 
 function checkErrors(client) {
     try {
-        const result = client.query('SELECT * FROM errors');
-        if (result.rows.length === 0) {
+        const result = client.query('SELECT * FROM errors').then((res) => {
+          if (res.rows.length === 0) {
             client.query(createDefaultErrors);
-        }
+          }
+        })
       } catch (err) {
         console.error(err);
       }
