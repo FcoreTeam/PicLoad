@@ -42,9 +42,9 @@ const Popup = ({ children }) => {
         <div
           className={styles.popup__hand}
           onTouchMove={(e) =>
-            touchMoveClosePopup(e, popupWindowRef.current, closePopupFunc)
+            touchMoveClosePopup(e, popupWindowRef.current)
           }
-          onTouchEnd={(e) => touchMoveEndClosePopup(e, popupWindowRef.current)}
+          onTouchEnd={(e) => touchMoveEndClosePopup(e, popupWindowRef.current, closePopupFunc)}
         ></div>
         {children}
       </section>
