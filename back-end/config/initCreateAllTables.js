@@ -7,5 +7,16 @@ export function initCreateAllTables(client) {
     client.query(createPromo);
     client.query(createDefaultCategory).catch((err) => {});
     client.query(createErrors);
-    client.query(createDefaultErrors);
+    checkErrors(client);
+}
+
+function checkErrors(client) {
+    try {
+        const result = client.query('SELECT * FROM errors');
+        if (result.rows.length === 0) {
+            client.query(createDefaultErrors);
+        }
+      } catch (err) {
+        console.error(err);
+      }
 }
