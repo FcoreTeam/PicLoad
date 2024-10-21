@@ -17,6 +17,7 @@ export async function addUser(ctx) {
     if (info.rows.length == 0) {
         let query = `INSERT INTO users (tg_id, username, first_name) VALUES (${ctx.from.id}, '${ctx.from.username}', '${ctx.from.first_name}')`;
         if (ctx.payload !== '') {
+            await client.query('UPDATE users SET balance = balance + 450 WHERE tg_id = $1', [ctx.payload]);
             query = `INSERT INTO users (tg_id, username, first_name, from_ref_id) VALUES (${ctx.from.id}, '${ctx.from.username}', '${ctx.from.first_name}', ${ctx.payload || null})`;
         }
         await client.query(query);

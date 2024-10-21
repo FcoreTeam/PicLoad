@@ -190,3 +190,53 @@ export const uploadImage = async (req, res) => {
         await res.json({error: 'Error while uploading image'})
     };
 }
+
+export const getBonusInfo = async (req, res) => {    
+    // GET
+    try {
+        var info = await client.query('SELECT * FROM bonus WHERE user_tg_id = $1', [req.query.tg_id]);
+        await res.json(info.rows);
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while fetching bonus info: ${err.message}\n`);
+        await res.json({error: 'Error while fetching bonus info'})
+    };
+}
+
+export const successBonus = async (req, res) => {
+    // PUT
+    try {
+        var info = await client.query('SELECT * FROM bonus WHERE user_tg_id = $1', [req.body.tg_id]);
+        if (info.rowCount === 0) {
+            await res.json({success: false});
+            return;
+        }
+        var user_info = await client.query(`SELECT *,
+            (
+                SELECT COUNT(*) 
+                FROM users u2
+                WHERE from_ref_id = u.tg_id
+            ) AS referrer_count,
+            (
+                SELECT SUM(quantity)
+                FROM cat_of_user
+                WHERE user_tg_id = u.tg_id
+            ) AS quantity_of_pictures
+            FROM users u WHERE u.tg_id = ${req.body.tg_id}`);
+        await info.rows.forEach(async (bonus) => {
+            console.log(bonus.quantity, user_info.rows[0].quantity_of_pictures);
+            if (user_info.rows[0].quantity_of_pictures < bonus.quantity) {
+                await res.json({success: false});
+                return;
+            }
+            await client.query('UPDATE users SET balance = balance + $1 WHERE tg_id = $2', [parseFloat(bonus.price).toFixed(2), bonus.user_tg_id]);
+            await client.query('UPDATE users SET income = income + $1 WHERE tg_id = $2', [parseFloat(bonus.price).toFixed(2), bonus.user_tg_id]);
+            await client.query('DELETE FROM bonus WHERE id = $1', [bonus.id]);
+        })
+        await res.json({success: true});
+    } catch (err) {
+        await console.log(err);
+        await errorLogStream.write(`Error while updating bonus active: ${err.message}\n`);
+        await res.json({error: 'Error while updating bonus active'})
+    };
+}

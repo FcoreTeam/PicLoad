@@ -11,7 +11,7 @@ export const createUser = `CREATE TABLE IF NOT EXISTS users (
     income DECIMAL(100,2) NOT NULL DEFAULT 0,
     last_income_updated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     size_pic INT4RANGE NOT NULL DEFAULT '[0, 1000000)',
-    pay_pic DECIMAL(100,2) NOT NULL DEFAULT 0,
+    pay_pic INT4RANGE NOT NULL DEFAULT '[0, 1000000)',
     percent_error DECIMAL(100,2) NOT NULL DEFAULT 0,
     avatar_url VARCHAR(255)
     );`;
@@ -54,3 +54,13 @@ export const createDefaultErrors = `INSERT INTO errors (message)
     ('Дубликат уже существующего изображения'),
     ('Изображение содержит водяные знаки или логотипы'),
     ('Присутствие посторонних объектов в кадре');`
+
+export const createBonus = `CREATE TABLE IF NOT EXISTS bonus (
+    id SERIAL PRIMARY KEY UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    quantity_of_picture INTEGER NOT NULL,
+    price DECIMAL(100,2) NOT NULL,
+    user_tg_id BIGINT,
+    CONSTRAINT fk_user FOREIGN KEY (user_tg_id) REFERENCES users(tg_id) ON DELETE CASCADE
+)`
