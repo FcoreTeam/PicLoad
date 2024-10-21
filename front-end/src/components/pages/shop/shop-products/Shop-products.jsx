@@ -16,7 +16,7 @@ const ShopProducts = ({
             <Product
               premiumProduct={true}
               productName="Premium"
-              productDescription="Вывод средств, ускоренная загрузка, увеличенно..."
+              productDescription="Вывод средств, ускоренная загрузка, увеличенное хранилище"
               productPrice="399 ₽"
             />
           </div>

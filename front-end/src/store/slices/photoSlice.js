@@ -4,7 +4,7 @@ const initialState = {
    naturePhotos: 0,
    architecturePhotos: 0,
    foodPhotos: 0,
-   sportPhotos: 40,
+   sportPhotos: 0,
    travelPhotos: 0,
 }
 

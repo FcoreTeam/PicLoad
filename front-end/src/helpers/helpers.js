@@ -8,10 +8,11 @@ export const touchMoveClosePopup = (e, popupWindowRef, action) => {
     popupWindowRef.style.top = "100vh";
     popupWindowRef.style.transition = ".3s";
     setTimeout(() => {
-      action()
+      action();
     }, 300);
     return;
   }
+  popupWindowRef.style.top = e.touches[0].clientY + "px";
   popupWindowRef.style.top = e.touches[0].clientY + "px";
 };
 

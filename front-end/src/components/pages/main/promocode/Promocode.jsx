@@ -30,6 +30,7 @@ const Promocode = () => {
           placeholder="Введите промокод"
           value={promocodeText}
           onChange={updatePromocodeTextUi}
+          maxLength={19}
         />
         <button onClick={updatePromocodeFunc}>Ввести</button>
       </div>
