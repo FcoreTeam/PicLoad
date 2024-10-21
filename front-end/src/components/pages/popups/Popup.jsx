@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styles from "./popup.module.scss";
 import { setClosePopup } from "../../../store/slices/popupsSlice";
 import { useEffect, useRef } from "react";
@@ -18,16 +18,12 @@ const Popup = ({ children }) => {
   };
 
   useEffect(() => {
-    popupWindowRef.current.style.top = `calc(100vh - ${
-      popupWindowRef.current.getBoundingClientRect().height
-    }px - 79px)`;
+    const popupHeight = popupWindowRef.current.getBoundingClientRect().height;
+    popupWindowRef.current.style.top = `calc(100vh - ${popupHeight}px - 79px)`;
   }, []);
 
-  const closePopup = () => {
-    if (
-      popupWindowRef.current &&
-      !popupWindowRef.current.contains(event.target)
-    ) {
+  const closePopup = (e) => {
+    if (popupWindowRef.current && !popupWindowRef.current.contains(e.target)) {
       popupWindowRef.current.style.transition = ".3s";
       popupWindowRef.current.style.top = "100vh";
       setTimeout(() => {
@@ -41,14 +37,15 @@ const Popup = ({ children }) => {
       <section ref={popupWindowRef} className={styles.popup__window}>
         <div
           className={styles.popup__hand}
-          onTouchMove={(e) =>
-            touchMoveClosePopup(e, popupWindowRef.current)
+          onTouchMove={(e) => touchMoveClosePopup(e, popupWindowRef.current)}
+          onTouchEnd={(e) =>
+            touchMoveEndClosePopup(e, popupWindowRef.current, closePopupFunc)
           }
-          onTouchEnd={(e) => touchMoveEndClosePopup(e, popupWindowRef.current, closePopupFunc)}
         ></div>
         {children}
       </section>
     </div>
   );
 };
+
 export default Popup;

@@ -11,9 +11,8 @@ const Wallet = () => {
     foodPhotos,
     sportPhotos,
     travelPhotos,
-  } = useSelector((state) => state.photos);
-
-  let remainder = balance.toFixed(2).slice(2, 4);
+  } = useSelector((state) => state.user.categoriesPhotoCounts);
+  
   let uploadedPhotos =
     naturePhotos + architecturePhotos + foodPhotos + sportPhotos + travelPhotos;
   const dispatch = useDispatch();
@@ -65,7 +64,6 @@ const Wallet = () => {
         <div className={styles.money__info}>
           <p className={styles.money}>
             {balance}
-            <span>{balance == 0 ? "." + remainder : null}</span>{" "}
             <span className={styles.ruble}>₽</span>
           </p>
           <p className={styles.income}>

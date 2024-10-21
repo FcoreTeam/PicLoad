@@ -7,12 +7,9 @@ import Upload from "./popups/upload/Upload";
 import Withdraw from "./popups/withdraw/Withdraw";
 import Navbar from "./navbar/Navbar";
 
-
-
-
 const Layout = () => {
   const { isOpen, popupName } = useSelector((state) => state.popups);
-  console.log(isOpen);
+  
   return (
     <>
       <Outlet />
