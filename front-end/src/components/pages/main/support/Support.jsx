@@ -3,8 +3,8 @@ import telegramImage from "../../../../img/icons/telegramLink.svg";
 import vkImage from "../../../../img/icons/VKlink.svg";
 import mailImage from "../../../../img/icons/maillink.svg";
 import telegramLogo from "../../../../img/icons/telegramLogo.svg";
-import vkLogo from "../../../../img/icons/vkLogo.svg";
-import mailLogo from "../../../../img/icons/mailLogo.svg";
+import vkLogo from "../../../../img/icons/vklogo.svg";
+import mailLogo from "../../../../img/icons/maillogo.svg";
 
 import styles from "./support.module.scss";
 
