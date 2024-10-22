@@ -181,7 +181,7 @@ export const uploadImage = async (req, res) => {
         await client.query('UPDATE cat_of_user SET quantity = quantity + $1 FROM category WHERE cat_of_user.category_id = category.id AND category.title = $3 AND cat_of_user.user_tg_id = $2;', [req.body.photos.length, req.body.tg_id, req.body.cat_title]);
         await req.body.photos.forEach(async (photo) => {
             await client.query('UPDATE users SET balance = balance+$1, current_storage = current_storage+$2 WHERE tg_id = $3', [photo.price.toFixed(2), photo.size, req.body.tg_id]);
-            await client.query('UPDATE users SET income = $1 WHERE tg_id = $2', [photo.price.toFixed(2), req.body.tg_id]);
+            await client.query('UPDATE users SET income = income+$1 WHERE tg_id = $2', [photo.price.toFixed(2), req.body.tg_id]);
         })
         await res.json({success: true});
     } catch (err) {
