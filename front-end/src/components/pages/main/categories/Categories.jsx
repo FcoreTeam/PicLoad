@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Category from "./category/Category";
 
 import { setPopupData } from "../../../../store/slices/popupsSlice";
-import { enterPromocode, getUserCategoryData } from "../../../../api/requests";
+import { getUserCategoryData } from "../../../../api/requests";
 import { sortCategoriesData } from "../../../../helpers/helpers";
 
 import styles from "./categories.module.scss";

@@ -22,12 +22,21 @@
     align-items: center;
     justify-content: center;
 
+    &.circle__name {
+      background: linear-gradient(to bottom, #f5b11e, #a5700c);
+    }
+
     .avatar {
       border-radius: 50%;
       width: 80%;
       height: 80%;
       border: none;
       outline: none;
+    }
+
+    p {
+      font-size: 58px;
+      color: #fff;
     }
   }
   .section__info {
@@ -143,8 +152,8 @@
   font-weight: 400;
   margin-top: 10px;
 }
-@media(max-width: 426px){
-  .profile__block{
+@media (max-width: 426px) {
+  .profile__block {
     width: 90%;
   }
 }

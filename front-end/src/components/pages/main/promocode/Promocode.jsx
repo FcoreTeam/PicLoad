@@ -1,21 +1,31 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { sendPromocode } from "../../../../api/requests";
+import { setPopupData } from "../../../../store/slices/popupsSlice";
 
 import styles from "./promocode.module.scss";
-import {
-  updatePromocodeText,
-  updatePromocode,
-} from "../../../../store/slices/promocodeSlice";
 
 const Promocode = () => {
   const dispatch = useDispatch();
-  const { promocodeText } = useSelector((state) => state.promocode);
-  console.log(promocodeText)
-  const updatePromocodeTextUi = (e) => {
-    dispatch(updatePromocodeText(e.target.value));
-  };
+  const [promoCode, setPromoCode] = useState("");
 
-  const updatePromocodeFunc = () => {
-    dispatch(updatePromocode());
+  const sendPromo = () => {
+    sendPromocode(promoCode).then(({ data: { success = null } }) => {
+      dispatch(
+        setPopupData({
+          isOpen: true,
+          popupName: "warning",
+          title: "Уведомление",
+          text:
+            success === null
+              ? "Повторите попытку, пожалуйста, чуть позже!"
+              : `Промокод ${success ? "активирован!" : "не найден!"}`,
+          buttonText: "Закрыть",
+        })
+      );
+      setPromoCode("");
+    });
   };
 
   return (
@@ -28,13 +38,19 @@ const Promocode = () => {
         <input
           type="text"
           placeholder="Введите промокод"
-          value={promocodeText}
-          onChange={updatePromocodeTextUi}
+          value={promoCode}
+          onChange={(e) => setPromoCode(e.target.value)} // Update state on input change
           maxLength={19}
         />
-        <button onClick={updatePromocodeFunc}>Ввести</button>
+        <button
+          disabled={promoCode.length < 2} // Button disabled based on state
+          onClick={sendPromo}
+        >
+          Ввести
+        </button>
       </div>
     </section>
   );
 };
+
 export default Promocode;

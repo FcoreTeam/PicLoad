@@ -47,6 +47,11 @@
       margin-right: 15px;
       border-radius: 12px;
       font-size: 12px;
+
+      &:disabled {
+        opacity: .7;
+        pointer-events: none;
+      }
     }
   }
 }

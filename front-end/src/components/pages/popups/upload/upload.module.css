@@ -1,0 +1,64 @@
+.emoji__wrapper {
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.emoji__wrapper img {
+  width: 19px;
+  height: 16px;
+}
+
+.emoji__wrapper.nature {
+  background: linear-gradient(138.01deg, #f3b33c -1.58%, #f2345d 104.27%);
+}
+
+.emoji__wrapper.architect {
+  background: linear-gradient(135deg, #cef61a 0%, #62fbcd 100%);
+}
+
+.emoji__wrapper.sport {
+  background: -webkit-gradient(linear, left bottom, left top, from(#dbf1ff), to(#dbf1ff)), -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.6)), to(rgba(185, 230, 254, 0.6)));
+  background: linear-gradient(0deg, #dbf1ff, #dbf1ff), linear-gradient(90deg, rgba(255, 255, 255, 0.6) 0%, rgba(185, 230, 254, 0.6) 100%);
+}
+
+.emoji__wrapper.eat {
+  background: linear-gradient(86.72deg, #04fcf4 -86.72%, #ffd1e6 113.66%);
+}
+
+.emoji__wrapper.adventure {
+  background: linear-gradient(210.96deg, #ffc60b 7.5%, #dd9b2f 92.5%);
+}
+
+.popup__title {
+  margin-top: 20px;
+  font-size: 22px;
+}
+
+.popup__content {
+  width: 100%;
+  height: 206px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.popup__content .uploader {
+  width: 331px;
+  height: 100%;
+  border: 1px dashed #ffc60b;
+  border-radius: 16px;
+}
+/*# sourceMappingURL=upload.module.css.map */

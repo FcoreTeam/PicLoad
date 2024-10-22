@@ -1,31 +1,25 @@
-export const touchMoveClosePopup = (e, popupWindowRef, action) => {
-  e.stopPropagation();
-  const popupHeight = popupWindowRef.getBoundingClientRect().height
-  const pos = screen.height - e.touches[0].clientY
+export const touchMoveClosePopup = (e, popupWindowRef) => {
+  const popupHeight = popupWindowRef.getBoundingClientRect().height;
+  const pos = e.touches[0].clientY;
   popupWindowRef.style.transition = "0s";
-  if (pos > popupHeight + 79) return;
-  if (pos < popupHeight / 2 - 79) {
+  if (pos < (screen.height - popupHeight - (popupHeight / 2))) return;
+  popupWindowRef.style.top = `${pos}px`;
+};
+
+export const touchMoveEndClosePopup = (e, popupWindowRef, action) => {
+  const popupHeight = popupWindowRef.getBoundingClientRect().height;
+  const pos = e.changedTouches[0].clientY;
+  popupWindowRef.style.transition = ".3s";
+  if (pos < (screen.height - popupHeight / 2 - 79) && pos >= popupHeight + 50) {
+    popupWindowRef.style.top = `calc(100vh - ${popupHeight}px - 79px)`;
+  } else if (pos > (screen.height - popupHeight / 2 - 79)) {
     popupWindowRef.style.top = "100vh";
-    popupWindowRef.style.transition = ".3s";
     setTimeout(() => {
       action();
     }, 300);
-    return;
   }
-  popupWindowRef.style.top = e.touches[0].clientY + "px";
-  popupWindowRef.style.top = e.touches[0].clientY + "px";
 };
 
-export const touchMoveEndClosePopup = (e, popupWindowRef) => {
-  e.stopPropagation();
-  const popupHeight = popupWindowRef.getBoundingClientRect().height
-  const pos = screen.height - e.changedTouches[0].clientY
-  popupWindowRef.style.transition = ".3s";
-  if (pos > popupHeight / 2 - 79 && pos < popupHeight + 79) {
-    popupWindowRef.style.top = `calc(100vh - ${popupWindowRef.getBoundingClientRect().height}px - 79px)`;
-    return;
-  }
-}
 
 export const getIdFromAddress = () => new URLSearchParams(window.location.search).get("tg_id")
 

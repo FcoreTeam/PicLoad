@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 
 import storageImg from "../../../../img/icons/storage.svg";
 import walletImg from "../../../../img/icons/wallet.svg";
@@ -11,30 +11,29 @@ import arrowToRight from "../../../../img/icons/arrowToRight.svg";
 import styles from "./profile.module.scss";
 import { getUserData } from "../../../../api/requests";
 import { updateUserData } from "../../../../store/slices/userSlice";
-import { getIdFromAddress } from "../../../../helpers/helpers";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState({});
 
   useEffect(() => {
-    const tgId = getIdFromAddress();
-    getUserData(tgId).then(
+    getUserData().then(
       ({
         data: {
-          avatar_url,
-          first_name,
-          username,
-          current_storage,
-          max_storage,
-          income,
-        },
-      }) => {
+          avatar_url = "",
+          first_name = "Unknown",
+          username = "Anonymous",
+          current_storage = 0,
+          max_storage = 0,
+          balance = 0,
+          income = 0,
+        } = {},
+      } = {}) => {
         dispatch(
           updateUserData({
             avatar: avatar_url,
             name: first_name,
             username: `@${username}`,
+            balance: balance,
             income: parseFloat(income).toFixed(2),
             memoryUse: current_storage,
             memoryAll: max_storage,
@@ -47,60 +46,6 @@ const Profile = () => {
   let { name, username, avatar, memoryAll, memoryUse, income } = useSelector(
     (state) => state.user
   );
-  // income = parseFloat(data.income).toFixed(2);
-  // name = data.first_name;
-  // username = "@" + data.username;
-  // memoryAll = data.max_storage;
-  // memoryUse = data.current_storage;
-  // const a = {
-  //   data: {
-  //     tg_id: "659350172",
-  //     first_name: "Ash",
-  //     username: "ashmuradyann",
-  //     balance: "0.00",
-  //     max_balance: "5000.00",
-  //     from_ref_id: null,
-  //     is_premium: false,
-  //     current_storage: "0.00",
-  //     max_storage: "1.00",
-  //     income: "0.00",
-  //     last_income_updated: "2024-10-16T21:57:42.314Z",
-  //     size_pic: "[0,1000000)",
-  //     pay_pic: "0.00",
-  //     percent_error: "0.00",
-  //     avatar_url:
-  //       "https://api.telegram.org/file/bot6034759582:AAHngwWNrf3SZ9lnv48nMth2dc8nIchby38/photos/file_4.jpg",
-  //     referrer_count: "0",
-  //     quantity_of_pictures: "0",
-  //   },
-  //   status: 200,
-  //   statusText: "OK",
-  //   headers: {
-  //     "content-length": "482",
-  //     "content-type": "application/json; charset=utf-8",
-  //   },
-  //   config: {
-  //     transitional: {
-  //       silentJSONParsing: true,
-  //       forcedJSONParsing: true,
-  //       clarifyTimeoutError: false,
-  //     },
-  //     adapter: ["xhr", "http", "fetch"],
-  //     transformRequest: [null],
-  //     transformResponse: [null],
-  //     timeout: 10000,
-  //     xsrfCookieName: "XSRF-TOKEN",
-  //     xsrfHeaderName: "X-XSRF-TOKEN",
-  //     maxContentLength: -1,
-  //     maxBodyLength: -1,
-  //     env: {},
-  //     headers: { Accept: "application/json, text/plain, */*" },
-  //     baseURL: "https://api.example.com",
-  //     method: "get",
-  //     url: "http://localhost:3000/api/?tg_id=659350172",
-  //   },
-  //   request: {},
-  // };
 
   return (
     <>
@@ -120,8 +65,17 @@ const Profile = () => {
             из {memoryAll} GB
           </NavLink>
         </section>
-        <div className={styles.circle__avatar}>
-          <img src={avatar} alt="" className={styles.avatar} />
+        <div
+          className={clsx(
+            styles.circle__avatar,
+            !avatar && styles.circle__name
+          )}
+        >
+          {!!avatar ? (
+            <img src={avatar} alt="" className={styles.avatar} />
+          ) : (
+            <p>{name.slice(0, 1)}</p>
+          )}
         </div>
         <section
           className={clsx(styles.profile__section, styles.balance__section)}

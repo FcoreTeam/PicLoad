@@ -1,0 +1,13 @@
+.warn__title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.warn__description {
+  color: #ffffff72;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 0.45px;
+  line-height: 1.2;
+}
+/*# sourceMappingURL=warning.module.css.map */
