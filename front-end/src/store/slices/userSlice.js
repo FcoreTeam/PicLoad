@@ -7,7 +7,7 @@ export const profileState = {
   memoryUse: 0,
   memoryAll: 1,
   memoryPercent: 100,
-  balance: 0,
+  balance: 4440,
   income: 0,
   isPremium: false,
   categoriesPhotoCounts: {
