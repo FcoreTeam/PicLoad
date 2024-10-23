@@ -7,9 +7,12 @@ const initialState = {
   subtext: "",
   text: "",
   buttonText: "",
+  buttonTextDark: false,
+  linkText: "",
   popupName: "",
   popupEmoji: "",
   emojiBackground: "",
+  productPrice: "",
 };
 
 const popupsSlice = createSlice({
@@ -25,6 +28,9 @@ const popupsSlice = createSlice({
       state.popupName = action.payload.popupName;
       state.popupEmoji = action.payload.popupEmoji;
       state.emojiBackground = action.payload.emojiBackground;
+      state.productPrice = action.payload.productPrice;
+      state.buttonTextDark = action.payload.buttonTextDark;
+      state.linkText = action.payload.linkText;
     },
     setClosePopup: (state) => {
       if (state.isNext == true) {

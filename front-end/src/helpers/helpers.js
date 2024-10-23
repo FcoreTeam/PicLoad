@@ -20,6 +20,20 @@ export const touchMoveEndClosePopup = (e, popupWindowRef, action) => {
   }
 };
 
+export const checkMemory = (memoryAll, memoryUse) => {
+  let popupState = true;
+  if (memoryAll - memoryUse <= 0.3) {
+    return popupState;
+  } else {
+    return !popupState;
+  }
+};
+
+export const countMemoryPercent = (memoryAll, memoryUse) => {
+  let memoryLeft = memoryAll - memoryUse;
+  let percent = Math.floor((memoryLeft / memoryAll) * 100);
+  return percent;
+};
 
 export const getIdFromAddress = () => new URLSearchParams(window.location.search).get("tg_id")
 

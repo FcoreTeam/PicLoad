@@ -1,13 +1,11 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-
-import { countMemoryPercent } from "../../../../store/utils/mainUtils";
-import { updatePercent } from "../../../../store/slices/userSlice";
-
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
+import { updatePercent } from "../../../../store/slices/userSlice";
+import { countMemoryPercent } from "../../../../helpers/helpers";
+
 import styles from "./storage.module.scss";
-import { useEffect } from "react";
 
 const Storage = () => {
   const dispatch = useDispatch();
@@ -15,10 +13,11 @@ const Storage = () => {
     (state) => state.user
   );
 
-  const updatePercentUi = () => dispatch(updatePercent(countMemoryPercent(memoryAll, memoryUse)));
+  const updatePercentUi = () =>
+    dispatch(updatePercent(countMemoryPercent(memoryAll, memoryUse)));
 
   useEffect(() => {
-    updatePercentUi()
+    updatePercentUi();
   }, []);
 
   return (
@@ -38,7 +37,7 @@ const Storage = () => {
             Занято <span>{memoryUse} GB</span> из <span>{memoryAll} GB</span>
           </p>
         </div>
-        <NavLink to="/" className={styles.upgrade__button}>
+        <NavLink to="/shop" className={styles.upgrade__button}>
           Улучшить
         </NavLink>
       </div>

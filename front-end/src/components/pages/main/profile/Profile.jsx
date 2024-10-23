@@ -15,33 +15,33 @@ import { updateUserData } from "../../../../store/slices/userSlice";
 const Profile = () => {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getUserData().then(
-  //     ({
-  //       data: {
-  //         avatar_url = "",
-  //         first_name = "Unknown",
-  //         username = "Anonymous",
-  //         current_storage = 0,
-  //         max_storage = 0,
-  //         balance = 0,
-  //         income = 0,
-  //       } = {},
-  //     } = {}) => {
-  //       dispatch(
-  //         updateUserData({
-  //           avatar: avatar_url,
-  //           name: first_name,
-  //           username: `@${username}`,
-  //           balance: balance,
-  //           income: parseFloat(income).toFixed(2),
-  //           memoryUse: current_storage,
-  //           memoryAll: max_storage,
-  //         })
-  //       );
-  //     }
-  //   );
-  // }, []);
+  useEffect(() => {
+    getUserData().then(
+      ({
+        data: {
+          avatar_url = "",
+          first_name = "Unknown",
+          username = "Anonymous",
+          current_storage = 0,
+          max_storage = 0,
+          balance = 0,
+          income = 0,
+        } = {},
+      } = {}) => {
+        dispatch(
+          updateUserData({
+            avatar: avatar_url,
+            name: first_name,
+            username: `@${username}`,
+            balance: balance,
+            income: parseFloat(income).toFixed(2),
+            memoryUse: current_storage,
+            memoryAll: max_storage,
+          })
+        );
+      }
+    );
+  }, []);
 
   let { name, username, avatar, memoryAll, memoryUse, income } = useSelector(
     (state) => state.user
