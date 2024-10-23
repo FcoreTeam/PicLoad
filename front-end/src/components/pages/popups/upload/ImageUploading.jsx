@@ -1,77 +1,80 @@
-import { useState } from "react";
-import styles from "./upload.module.scss";
+import { useRef, useState, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
 import clsx from "clsx";
 
-const ImageUploading = ({ setUploadedImages }) => {
-  const [dragActive, setDragActive] = useState(false);
+import { byteMegabyteGegabyte } from "../../../../helpers/helpers";
 
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
+import uploadIcon from "../../../../img/icons/uploadIcon.svg";
+
+import styles from "./upload.module.scss";
+import Button from "./../../../ui/button/Button";
+
+const ImageUploading = ({ setUploadedImages }) => {
+  const hiddenInputRef = useRef(null);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (incomingFiles) => {
+      if (hiddenInputRef.current) {
+        const dataTransfer = new DataTransfer();
+        incomingFiles.forEach((file) => {
+          dataTransfer.items.add(file);
+        });
+        hiddenInputRef.current.files = dataTransfer.files;
+      }
+      getImagesFromInput(incomingFiles);
+    },
+  });
 
   const getImagesFromInput = (fileArray) => {
-    fileArray.forEach((el, i) => {
+    fileArray.forEach((file, index) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setUploadedImages((prev) => [
           ...prev,
           {
-            imageId: i,
+            imageId: index,
             imageSrc: e.target.result,
-            imageName: el.name,
-            imageSize: el.size,
+            imageName: file.name,
+            imageSize: byteMegabyteGegabyte(file.size),
           },
         ]);
       };
-      reader.readAsDataURL(el);
+      reader.readAsDataURL(file);
     });
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      getImagesFromInput([...e.dataTransfer.files]);
-    }
-  };
-
-  const handleChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      getImagesFromInput([...e.target.files]);
-    }
-  };
+  const openUploadWindow = (e) => { 
+    e.stopPropagation()
+    hiddenInputRef.current.click()
+  }
 
   return (
     <section className={styles.popup__content}>
-      <label
-        htmlFor="uploadImage"
-        className={clsx(styles.uploader, dragActive && styles.uploader__active)}
-        onDragEnter={handleDrag}
+      <div
+        {...getRootProps({ className: "dropzone" })}
+        className={clsx(styles.uploader, isDragActive && styles.uploader__active)}
       >
+        <img src={uploadIcon} alt="uploadIcon" />
+        <div>Перетащите сюда файлы</div>
+        <p>Или</p>
+        <Button text="Выбрать с устройства" componentStyle="dark__button" onClick={openUploadWindow} />
+        <input
+          type="file"
+          style={{ opacity: 0 }}
+          ref={hiddenInputRef}
+          multiple
+          accept="image/jpg, image/jpeg, image/png, image/webp"
+          // onClick={(e) => e.stopPropagation()}
+        />
         <input
           type="file"
           id="uploadImage"
-          multiple={true}
-          onChange={handleChange}
+          {...getInputProps()}
+          multiple
           accept="image/jpg, image/jpeg, image/png, image/webp"
+          // onClick={(e) => e.stopPropagation()}
         />
-        {dragActive && (
-          <div
-            className={styles.upload__area}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          ></div>
-        )}
-      </label>
+      </div>
     </section>
   );
 };

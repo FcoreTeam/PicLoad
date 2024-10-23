@@ -7,14 +7,15 @@ export const profileState = {
   memoryUse: 0,
   memoryAll: 1,
   memoryPercent: 100,
-  balance: 4440,
+  errorPercent: 0,
+  balance: 0,
   income: 0,
   isPremium: false,
   categoriesPhotoCounts: {
     naturePhotos: 0,
     architecturePhotos: 0,
     foodPhotos: 0,
-    sportPhotos: 40,
+    sportPhotos: 0,
     travelPhotos: 0,
   }
 };
@@ -23,12 +24,10 @@ const userSlice = createSlice({
   name: "user",
   initialState: profileState,
   reducers: {
-    updateUserData: (state, action) => {
-      return {
-        ...state,
-        ...action.payload
-      }
-    },
+    updateUserData: (state, action) => ({
+      ...state,
+      ...action.payload
+    }),
     updateBalance: (state, action) => {
       state.balance = action.payload;
     },

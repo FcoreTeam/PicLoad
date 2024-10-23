@@ -12,23 +12,29 @@ const api = axios.create({
 
 export const getUserData = async () => {
   const tgId = getIdFromAddress()
-  return await api.get(`/api/?tg_id=${5106326939}`)
+  return await api.get(`/api/?tg_id=${tgId}`)
 }
 
 export const getUserCategoryData = async () => {
   const tgId = getIdFromAddress()
-  return await api.get(`/api/categoryofuser?tg_id=${5106326939}`)
+  return await api.get(`/api/categoryofuser?tg_id=${tgId}`)
 }
-
-export const getErrorMessage = async () => await api.get("/api/randomError")
 
 export const sendPromocode = async (code) => {
   const tgId = getIdFromAddress()
-  console.log(code, typeof code)
   return await api.put("/api/enterPromocode", {
-    tg_id: 5106326939,
+    tg_id: tgId,
     code: code
   }).catch(err => console.log(err))
 }
 
-// enterPromocode().then((res) => alert(res.data.success, res.data.error));
+export const getErrorMessage = async () => await api.get("/api/randomError").catch(err => console.log(err))
+
+export const sendImages = async (photos, categoryTitle) => {
+  const tgId = getIdFromAddress()
+  return await api.put("/api/uploadimage", {
+    tg_id: tgId,
+    photos,
+    cat_title: categoryTitle
+  }).catch(err => console.log(err))
+}

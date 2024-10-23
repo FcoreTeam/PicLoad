@@ -14,8 +14,15 @@ import { NavLink } from "react-router-dom";
 const Warning = () => {
   const dispatch = useDispatch();
 
-  const { title, text, subtext, buttonText, linkText, buttonTextDark } =
-    useSelector((state) => state.popups);
+  const {
+    title,
+    text,
+    rejectText,
+    subtext,
+    buttonText,
+    linkText,
+    buttonTextDark,
+  } = useSelector((state) => state.popups);
 
   const closePopup = () => {
     dispatch(setClosePopup());
@@ -37,10 +44,13 @@ const Warning = () => {
         </p>
       )}
       {!!text && <p className={styles.warn__description}>{text}</p>}
+      {!!rejectText && (
+        <p className={styles.warn__rejected_message}>«{rejectText}»</p>
+      )}
       <div className={styles.buttons__wrapper}>
         <Button
           text={buttonText}
-          componentStyle={buttonTextDark && "dark__button"}
+          componentStyle={buttonTextDark ? "dark__button" : "close__button"}
           onClick={buttonText === "Далее" ? nextPopup : closePopup}
         />
         {!!linkText && (

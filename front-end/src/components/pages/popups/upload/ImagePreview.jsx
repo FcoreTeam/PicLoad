@@ -11,7 +11,7 @@ const ImagePreview = ({ data, setUploadedImages }) => {
         <img src={data.imageSrc} alt="uploadingImg" />
         <div>
           <p>{data.imageName}</p>
-          <p>{(data.imageSize / 1048576).toFixed(2)} MB</p>
+          <p>{data.imageSize.toFixed(2)} MB</p>
         </div>
       </div>
       <button onClick={removeImageFromUpload}>

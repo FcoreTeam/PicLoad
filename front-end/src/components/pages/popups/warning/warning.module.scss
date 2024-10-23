@@ -4,7 +4,6 @@
 }
 .warn__subtext {
   color: #ffffffbf !important;
-  
 
   span {
     background: linear-gradient(135deg, #cef61a 0%, #62fbcd 100%);
@@ -21,6 +20,16 @@
   text-align: center;
   letter-spacing: 0.45px;
   line-height: 1.2;
+}
+
+.warn__rejected_message {
+  color: #ffffffbf !important;
+  font-size: 13px;
+  text-align: center;
+  letter-spacing: 0.45px;
+  line-height: 1.2;
+  font-style: italic;
+  font-weight: 300;
 }
 
 .buttons__wrapper {
